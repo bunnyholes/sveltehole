@@ -29,6 +29,11 @@
 				   href="/experimental/await" aria-label="await SSR">
 					await
 				</a>
+				<!-- remote functions -->
+				<a class="flex h-10 w-full items-center justify-center cursor-pointer transition-all duration-150 bg-slate-50 hover:bg-slate-100 text-sm {currentPath === '/experimental/remote-functions' ? 'bg-slate-200 text-slate-900 font-medium' : 'text-slate-600'}"
+				   href="/experimental/remote-functions" aria-label="remote functions">
+					remote
+				</a>
 			</div>
 		</details>
 

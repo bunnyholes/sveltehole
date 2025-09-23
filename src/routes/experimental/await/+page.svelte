@@ -1,6 +1,4 @@
 <script>
-	import { fetchPosts, fetchUserProfile, fetchComments } from '$lib/api.js';
-
 	/** @type {import('./$types').PageData} */
 	let { data } = $props();
 </script>
@@ -14,7 +12,7 @@
 		<h1 class="text-3xl font-bold text-slate-900 mb-6">await</h1>
 		
 		<p class="text-lg text-slate-600 mb-8">
-			같은 데이터를 두 가지 방식으로 렌더링하여 차이점을 비교해보세요.
+			서버 렌더링(POJO) vs 스트림 렌더링(Promise) 방식을 비교해보세요.
 		</p>
 
 		<!-- 단일 게시물에서 두 방식 비교 -->
@@ -28,22 +26,19 @@
 					<div class="space-y-4">
 						<div class="flex items-center gap-2 mb-4">
 							<div class="w-3 h-3 bg-green-600 rounded-full"></div>
-							<h3 class="text-lg font-semibold text-green-800">SSR 방식</h3>
+							<h3 class="text-lg font-semibold text-green-800">서버 렌더링 방식</h3>
 						</div>
-						<p class="text-sm text-slate-600 mb-4">서버에서 모든 데이터를 미리 가져온 후 완성된 페이지를 전송</p>
+						<p class="text-sm text-slate-600 mb-4">+page.server.js에서 데이터 수신 대기 후 완성된 HTML로 전송</p>
 						
-						{#if data.posts[0]}
+						{#if data.user}
 							<div class="bg-slate-50 p-4 rounded-lg border border-slate-300">
-								<h4 class="font-semibold text-slate-900">{data.posts[0].title}</h4>
-								<p class="text-sm text-slate-600">작성자: {data.posts[0].author}</p>
+								<h4 class="font-semibold text-slate-900">사용자: {data.user.name}</h4>
+								<p class="text-sm text-slate-600">ID: {data.user.id}</p>
 								
 								<div class="mt-3 pt-3 border-t border-slate-300">
-									<h5 class="text-sm font-medium text-slate-800 mb-2">댓글</h5>
-									{#each data.posts[0].comments as comment}
-										<div class="text-xs text-slate-600 bg-white rounded p-2 mb-1">
-											<strong>{comment.author}:</strong> {comment.content}
-										</div>
-									{/each}
+									<p class="text-xs text-slate-600">
+										✅ +page.server.js에서 await으로 데이터 수신 대기 완료
+									</p>
 								</div>
 							</div>
 						{/if}
@@ -53,40 +48,30 @@
 					<div class="space-y-4">
 						<div class="flex items-center gap-2 mb-4">
 							<div class="w-3 h-3 bg-blue-600 rounded-full"></div>
-							<h3 class="text-lg font-semibold text-blue-800">await 방식</h3>
+							<h3 class="text-lg font-semibold text-blue-800">스트림 렌더링 방식</h3>
 						</div>
-						<p class="text-sm text-slate-600 mb-4">스켈레톤 UI를 먼저 보여주고 데이터가 로드되면 내용을 채움</p>
+						<p class="text-sm text-slate-600 mb-4">Promise 객체를 클라이언트에게 스트림으로 전송하는 방식</p>
 						
-						{#await fetchPosts()}
+						{#await data.promiseUser}
 							<div class="bg-slate-50 p-4 rounded-lg border border-slate-300 animate-pulse">
 								<div class="h-5 bg-slate-300 rounded mb-2"></div>
 								<div class="h-4 bg-slate-300 rounded w-1/3 mb-3"></div>
 								
 								<div class="mt-3 pt-3 border-t border-slate-300">
-									<div class="h-4 bg-slate-300 rounded w-16 mb-2"></div>
-									<div class="h-3 bg-slate-300 rounded mb-1"></div>
+									<div class="h-4 bg-slate-300 rounded w-32 mb-2"></div>
 									<div class="h-3 bg-slate-300 rounded w-3/4"></div>
 								</div>
 							</div>
-						{:then posts}
-							{#if posts[0]}
+						{:then user}
+							{#if user}
 								<div class="bg-slate-50 p-4 rounded-lg border border-slate-300">
-									<h4 class="font-semibold text-slate-900">{posts[0].title}</h4>
-									<p class="text-sm text-slate-600">작성자: {posts[0].author}</p>
+									<h4 class="font-semibold text-slate-900">사용자: {user.name}</h4>
+									<p class="text-sm text-slate-600">ID: {user.id}</p>
 									
 									<div class="mt-3 pt-3 border-t border-slate-300">
-										<h5 class="text-sm font-medium text-slate-800 mb-2">댓글</h5>
-										{#await fetchComments(posts[0].id)}
-											<div class="text-xs bg-white rounded p-2 mb-1 animate-pulse">
-												<div class="h-3 bg-slate-300 rounded w-3/4"></div>
-											</div>
-										{:then comments}
-											{#each comments as comment}
-												<div class="text-xs text-slate-600 bg-white rounded p-2 mb-1">
-													<strong>{comment.author}:</strong> {comment.content}
-												</div>
-											{/each}
-										{/await}
+										<p class="text-xs text-slate-600">
+											🌊 Promise 객체를 클라이언트에게 스트림으로 전송
+										</p>
 									</div>
 								</div>
 							{/if}

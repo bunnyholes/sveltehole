@@ -1,21 +1,14 @@
-import { fetchPosts, fetchUserProfile, fetchComments } from '$lib/api.js';
-
 /** @type {import('./$types').PageServerLoad} */
-export async function load() {
-	// 첫 번째 게시물 1개와 첫 번째 사용자 1개만 가져오기
-	const [posts, user] = await Promise.all([
-		fetchPosts(0), // 딜레이 없음
-		fetchUserProfile(1, 0) // 딜레이 없음
-	]);
-
-	// 첫 번째 게시물의 댓글만 가져오기
-	const firstPost = posts[0];
-	if (firstPost) {
-		firstPost.comments = await fetchComments(firstPost.id, 0); // 딜레이 없음
-	}
+export async function load({ fetch }) {
+	// SSR용 유저: 딜레이 0으로 빠르게 호출
+	const userResponse = await fetch('/api/users/1?delay=0');
+	const user = await userResponse.json();
 
 	return {
-		posts: firstPost ? [firstPost] : [],
-		users: user ? [user] : []
+		// SSR용: 완성된 데이터 (딜레이 0으로 빠름)
+		user,
+		
+		// await 블록용: Promise 그대로 전달 (기본 딜레이 2초)
+		promiseUser: fetch('/api/users/2').then(r => r.json())
 	};
 }
