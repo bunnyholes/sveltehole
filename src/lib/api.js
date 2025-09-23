@@ -1,10 +1,10 @@
 /**
- * 가짜 API 함수들 - 2초 지연시간으로 원격 데이터 시뮬레이션
+ * 가짜 API 함수들 - 원격 데이터 시뮬레이션
  */
 
-export async function fetchPosts() {
-	// 0.5초 지연
-	await new Promise(resolve => setTimeout(resolve, 500));
+export async function fetchPosts(delay = 2000) {
+	// 딜레이 설정 (기본값 2초)
+	await new Promise(resolve => setTimeout(resolve, delay));
 	
 	return [
 		{
@@ -20,9 +20,9 @@ export async function fetchPosts() {
 	];
 }
 
-export async function fetchUserProfile(userId) {
-	// 0.5초 지연
-	await new Promise(resolve => setTimeout(resolve, 500));
+export async function fetchUserProfile(userId, delay = 2000) {
+	// 딜레이 설정 (기본값 2초)
+	await new Promise(resolve => setTimeout(resolve, delay));
 	
 	const users = {
 		1: { id: 1, name: "김개발" },
@@ -32,9 +32,9 @@ export async function fetchUserProfile(userId) {
 	return users[userId] || null;
 }
 
-export async function fetchComments(postId) {
-	// 0.5초 지연
-	await new Promise(resolve => setTimeout(resolve, 500));
+export async function fetchComments(postId, delay = 2000) {
+	// 딜레이 설정 (기본값 2초)
+	await new Promise(resolve => setTimeout(resolve, delay));
 	
 	const comments = {
 		1: [{ id: 1, author: "코딩장인", content: "좋은 글이네요!" }],

@@ -11,7 +11,7 @@
 						Svelte와 SvelteKit의 다양한 기능들을 실험하고 비교할 수 있는 데모 코드 모음입니다.
 					</p>
 					<div class="mt-10 flex flex-wrap gap-4">
-						<a href="/async"
+						<a href="/await"
 						   class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-slate-800">
 							데모 둘러보기
 							<svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4" fill="none"
@@ -86,7 +86,7 @@
 											<span class="text-2xl">⚡</span>
 										</div>
 										<div>
-											<h3 class="text-lg font-semibold text-slate-900">Async SSR 비교</h3>
+											<h3 class="text-lg font-semibold text-slate-900">Await SSR 비교</h3>
 											<p class="text-sm text-slate-500">비동기 서버 렌더링</p>
 										</div>
 									</div>
@@ -96,10 +96,10 @@
 									</p>
 									<div class="flex gap-2">
 										<a href="/traditional-ssr" class="px-3 py-1 bg-green-100 text-green-700 rounded text-sm hover:bg-green-200 transition-colors">
-											전통적 SSR
+											Non-Await SSR
 										</a>
-										<a href="/async" class="px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm hover:bg-blue-200 transition-colors">
-											Async SSR
+										<a href="/await" class="px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm hover:bg-blue-200 transition-colors">
+											Await SSR
 										</a>
 									</div>
 								</div>
@@ -126,7 +126,7 @@
 					<div class="grid gap-6 sm:grid-cols-2">
 						<div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 							<h3 class="text-lg font-semibold text-slate-900">SSR 비교</h3>
-							<p class="mt-2 text-sm text-slate-500">전통적 SSR과 Async SSR의 성능과 사용자 경험 비교</p>
+							<p class="mt-2 text-sm text-slate-500">Non-Await SSR과 Await SSR의 성능과 사용자 경험 비교</p>
 						</div>
 						<div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm opacity-50">
 							<h3 class="text-lg font-semibold text-slate-400">Svelte 5 Runes</h3>
@@ -197,7 +197,7 @@
 			<div class="grid gap-6 sm:grid-cols-2">
 				<div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 					<h3 class="text-lg font-semibold text-slate-900">SSR 비교</h3>
-					<p class="mt-2 text-sm text-slate-500">전통적 SSR과 Async SSR의 성능과 사용자 경험 비교</p>
+					<p class="mt-2 text-sm text-slate-500">Non-Await SSR과 Await SSR의 성능과 사용자 경험 비교</p>
 				</div>
 				<div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm opacity-50">
 					<h3 class="text-lg font-semibold text-slate-400">Svelte 5 Runes</h3>
