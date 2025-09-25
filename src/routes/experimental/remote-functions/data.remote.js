@@ -1,10 +1,10 @@
 import { query, getRequestEvent } from '$app/server';
 import * as v from 'valibot';
 
-// Query: /api/posts API를 호출하여 포스트 목록 조회
-export const getPosts = query(async () => {
+// Query: /api/users API를 호출하여 사용자 목록 조회
+export const getUsers = query(async () => {
 	const event = getRequestEvent();
-	const response = await event.fetch('/api/posts');
+	const response = await event.fetch('/api/users');
 	return await response.json();
 });
 

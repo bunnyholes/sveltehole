@@ -15,7 +15,7 @@
 <div class="min-h-screen bg-slate-50 text-slate-900">
 	<Sidebar />
 	
-	<div class="ml-20 flex min-h-screen flex-col">
+	<div class="flex min-h-screen flex-col divide-y divide-slate-200">
 		<Header />
 		
 		<main class="flex-1">

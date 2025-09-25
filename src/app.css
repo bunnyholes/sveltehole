@@ -3,3 +3,7 @@
 @view-transition {
         navigation: auto;
 }
+
+html {
+    overscroll-behavior: none;
+}

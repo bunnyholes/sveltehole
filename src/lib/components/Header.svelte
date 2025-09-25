@@ -2,7 +2,7 @@
 	import { Github } from '@lucide/svelte';
 </script>
 
-<header class="h-20 content-center sticky top-0 border-b border-slate-200 bg-white/80 backdrop-blur">
+<header id="main-header" class="h-20 content-center sticky top-0 bg-white/80 backdrop-blur">
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
 		<div class="flex flex-1 items-center gap-3">
 			<h2 class="text-lg font-semibold text-slate-900 uppercase">SvelteHole</h2>
