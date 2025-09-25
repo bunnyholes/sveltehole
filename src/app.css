@@ -1,9 +1,17 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
 
 @view-transition {
-        navigation: auto;
+	navigation: auto;
 }
 
-html {
-    overscroll-behavior: none;
+@layer base {
+	html {
+		@apply overscroll-none;
+	}
+
+	body > div:first-child {
+		@apply contents;
+	}
 }

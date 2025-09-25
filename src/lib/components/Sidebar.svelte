@@ -1,5 +1,12 @@
 <script>
-	import {BarChart3, FlaskConical, Palette, Rocket, Settings, Clock, Network} from '@lucide/svelte';
+	import BarChart3 from '@lucide/svelte/icons/bar-chart-3';
+	import FlaskConical from '@lucide/svelte/icons/flask-conical';
+	import Palette from '@lucide/svelte/icons/palette';
+	import Rocket from '@lucide/svelte/icons/rocket';
+	import Settings from '@lucide/svelte/icons/settings';
+	import Clock from '@lucide/svelte/icons/clock';
+	import Network from '@lucide/svelte/icons/network';
+	import MessageSquare from '@lucide/svelte/icons/message-square';
 	import {page} from '$app/state';
 
 	const currentPath = $derived(page.url.pathname);
@@ -36,7 +43,7 @@
             </div>
         </header>
 
-        <!-- 바디: 메인 네비게이션 (스크롤 가능) -->
+        <!-- 바디: 메인 내비게이션 (스크롤 가능) -->
         <nav class="flex-1 flex flex-col w-full overflow-y-auto">
             <!-- Experimental 그룹 -->
             <details class="w-full" open={currentPath.startsWith('/experimental')}>

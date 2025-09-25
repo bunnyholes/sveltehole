@@ -9,36 +9,40 @@
 
 <div class="min-h-screen bg-slate-50 p-8">
 	<div class="max-w-4xl mx-auto">
-		<h1 class="text-3xl font-bold text-slate-900 mb-6">await</h1>
+		<h1 class="text-3xl font-bold text-slate-900 mb-6">await SSR</h1>
 		
-		<p class="text-lg text-slate-600 mb-8">
-			서버 렌더링(POJO) vs 스트림 렌더링(Promise) 방식을 비교해보세요.
-		</p>
+		<div class="mb-8 space-y-4">
+			<p class="text-lg text-slate-600">
+				서울 날씨를 통해 SSR 방식 vs await 방식을 비교해보세요.
+			</p>
+			<div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+				<p class="text-sm text-blue-800">
+					<strong>유니버셜 앱 특성:</strong> 최초 요청 시에는 서버에서 데이터를 전달하고, 
+					페이지 탐색으로 접근 시에는 브라우저에서 직접 날씨 API를 호출하여 데이터를 렌더링합니다.
+				</p>
+			</div>
+		</div>
 
-		<!-- 단일 게시물에서 두 방식 비교 -->
-		<div class="space-y-8">
-			<!-- 비교 섹션 -->
-			<section class="bg-white rounded-lg border border-slate-200 p-6">
-				<h2 class="text-2xl font-semibold text-slate-900 mb-6">비교</h2>
-				
-				<div class="grid gap-6 lg:grid-cols-2">
+		<div class="grid grid-cols-2 gap-4">
 					<!-- SSR 방식 -->
 					<div class="space-y-4">
-						<div class="flex items-center gap-2 mb-4">
-							<div class="w-3 h-3 bg-green-600 rounded-full"></div>
-							<h3 class="text-lg font-semibold text-green-800">서버 렌더링 방식</h3>
+						<div class="mb-4">
+							<div class="flex items-center gap-2 mb-2">
+								<div class="w-3 h-3 bg-green-600 rounded-full"></div>
+								<h3 class="text-lg font-semibold text-green-800">SSR 방식</h3>
+							</div>
+							<p class="text-xs text-slate-500">서버에서 데이터 완료 후 HTML 전송</p>
 						</div>
-						<p class="text-sm text-slate-600 mb-4">+page.server.js에서 데이터 수신 대기 후 완성된 HTML로 전송</p>
 						
-						{#if data.user}
-							<div class="bg-slate-50 p-4 rounded-lg border border-slate-300">
-								<h4 class="font-semibold text-slate-900">사용자: {data.user.name}</h4>
-								<p class="text-sm text-slate-600">ID: {data.user.id}</p>
-								
-								<div class="mt-3 pt-3 border-t border-slate-300">
-									<p class="text-xs text-slate-600">
-										✅ +page.server.js에서 await으로 데이터 수신 대기 완료
-									</p>
+						{#if data.weather}
+							<div class="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
+								<div class="text-center">
+									<h4 class="text-lg font-semibold text-slate-900 mb-3">서울</h4>
+									<p class="text-2xl font-bold text-slate-900 mb-4">{data.weather.current.temperature_2m}°C</p>
+									<div class="space-y-2 text-sm text-slate-600">
+										<div>풍속 {data.weather.current.wind_speed_10m} km/h</div>
+										<div>코드 {data.weather.current.weather_code}</div>
+									</div>
 								</div>
 							</div>
 						{/if}
@@ -46,39 +50,47 @@
 
 					<!-- await 방식 -->
 					<div class="space-y-4">
-						<div class="flex items-center gap-2 mb-4">
-							<div class="w-3 h-3 bg-blue-600 rounded-full"></div>
-							<h3 class="text-lg font-semibold text-blue-800">스트림 렌더링 방식</h3>
+						<div class="mb-4">
+							<div class="flex items-center gap-2 mb-2">
+								<div class="w-3 h-3 bg-blue-600 rounded-full"></div>
+								<h3 class="text-lg font-semibold text-blue-800">await 방식</h3>
+							</div>
+								<p class="text-xs text-slate-500">Promise를 클라이언트에서 해결, 내비게이션 시 재요청</p>
 						</div>
-						<p class="text-sm text-slate-600 mb-4">Promise 객체를 클라이언트에게 스트림으로 전송하는 방식</p>
 						
-						{#await data.promiseUser}
-							<div class="bg-slate-50 p-4 rounded-lg border border-slate-300 animate-pulse">
-								<div class="h-5 bg-slate-300 rounded mb-2"></div>
-								<div class="h-4 bg-slate-300 rounded w-1/3 mb-3"></div>
-								
-								<div class="mt-3 pt-3 border-t border-slate-300">
-									<div class="h-4 bg-slate-300 rounded w-32 mb-2"></div>
-									<div class="h-3 bg-slate-300 rounded w-3/4"></div>
+						{#await data.promiseWeather}
+							<div class="bg-white rounded-lg border border-slate-200 p-6 shadow-sm animate-pulse">
+								<div class="text-center">
+									<div class="h-7 bg-slate-200 rounded w-16 mx-auto mb-3"></div>
+									<div class="h-8 bg-slate-200 rounded w-20 mx-auto mb-4"></div>
+									<div class="space-y-2">
+										<div class="h-5 bg-slate-200 rounded w-24 mx-auto"></div>
+										<div class="h-5 bg-slate-200 rounded w-16 mx-auto"></div>
+									</div>
 								</div>
 							</div>
-						{:then user}
-							{#if user}
-								<div class="bg-slate-50 p-4 rounded-lg border border-slate-300">
-									<h4 class="font-semibold text-slate-900">사용자: {user.name}</h4>
-									<p class="text-sm text-slate-600">ID: {user.id}</p>
-									
-									<div class="mt-3 pt-3 border-t border-slate-300">
-										<p class="text-xs text-slate-600">
-											🌊 Promise 객체를 클라이언트에게 스트림으로 전송
-										</p>
+						{:then weather}
+							{#if weather}
+								<div class="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
+									<div class="text-center">
+										<h4 class="text-lg font-semibold text-slate-900 mb-3">서울</h4>
+										<p class="text-2xl font-bold text-slate-900 mb-4">{weather.current.temperature_2m}°C</p>
+										<div class="space-y-2 text-sm text-slate-600">
+											<div>풍속 {weather.current.wind_speed_10m} km/h</div>
+											<div>코드 {weather.current.weather_code}</div>
+										</div>
 									</div>
 								</div>
 							{/if}
+						{:catch error}
+							<div class="bg-white rounded-lg border border-red-200 p-6 shadow-sm">
+								<div class="text-center text-red-600">
+									<p class="font-medium mb-2">오류 발생</p>
+									<p class="text-sm mt-1">{error.message}</p>
+								</div>
+							</div>
 						{/await}
 					</div>
-				</div>
-			</section>
 		</div>
 
 		<!-- 구현 방법 설명 -->
@@ -86,14 +98,16 @@
 			<h2 class="text-xl font-semibold text-blue-900 mb-4">💡 await SSR 활성화 방법</h2>
 			
 			<div class="space-y-4 text-sm text-blue-800">
-				<div>
-					<p class="mt-2 text-xs">
-						자세한 설정 방법은 
-						<a href="https://svelte.dev/docs/svelte/await-expressions" class="text-blue-600 hover:text-blue-800 underline" target="_blank">
-							공식 문서
-						</a>를 참고하세요.
-					</p>
-				</div>
+				<p class="text-xs">
+					현재 SSR 응답은 여전히 동기식으로 완료된 뒤 전송되므로,
+					스켈레톤과 완료 UI가 스트리밍 형태로 섞여 도착하지 않습니다.
+				</p>
+				<p class="mt-2 text-xs">
+					자세한 설정 방법은 
+					<a href="https://svelte.dev/docs/svelte/await-expressions" class="text-blue-600 hover:text-blue-800 underline" target="_blank">
+						공식 문서
+					</a>를 참고하세요.
+				</p>
 			</div>
 		</section>
 

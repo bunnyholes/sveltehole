@@ -1,5 +1,5 @@
 <script>
-	import { Github } from '@lucide/svelte';
+	import Github from '@lucide/svelte/icons/github';
 </script>
 
 <header id="main-header" class="h-20 content-center sticky top-0 bg-white/80 backdrop-blur">

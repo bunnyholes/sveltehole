@@ -12,14 +12,10 @@
 	<title>SvelteHole - 스벨트 데모 저장소</title>
 </svelte:head>
 
-<div class="min-h-screen bg-slate-50 text-slate-900">
-	<Sidebar />
-	
-	<div class="flex min-h-screen flex-col divide-y divide-slate-200">
-		<Header />
-		
-		<main class="flex-1">
-			{@render children?.()}
-		</main>
-	</div>
+<Sidebar />
+
+<div class="flex min-h-screen flex-col divide-y divide-slate-200">
+    <Header />
+
+    {@render children?.()}
 </div>
