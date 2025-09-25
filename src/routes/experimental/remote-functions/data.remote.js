@@ -47,27 +47,13 @@ export const addGuestbookEntry = form(
 		const event = getRequestEvent();
 		const db = event.locals.db;
 		
-		try {
-			if (Math.random() < 0.3) {
-				throw new Error('저장에 실패했습니다. (확률 30%)');
-			}
-
 			await db.insert(guestbook).values({
 				id,
 				name: String(name).trim(),
 				message: String(message).trim()
 			});
 
-			await getGuestbookEntries().refresh();
-
 			return { success: true };
-		} catch (error) {
-			console.error('addGuestbookEntry failed', error);
-			return {
-				success: false,
-				message: error?.message ?? '저장에 실패했습니다.'
-			};
-		}
 	}
 );
 

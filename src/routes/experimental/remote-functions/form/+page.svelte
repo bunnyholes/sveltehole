@@ -3,31 +3,26 @@
 	import { page } from '$app/state';
 	import { guestbookFormSchema } from '$lib/validation/guestbookFormSchema.js';
 
-	if (!addGuestbookEntry?.preflight) {
-		throw new Error('SvelteKit remote form preflight 지원이 필요합니다. 버전을 확인하세요.');
-	}
-
-const baseForm = addGuestbookEntry.preflight(guestbookFormSchema);
-
-const guestbookForm = baseForm.enhance(async ({ form, submit, data }) => {
+	let uuidInput = $state();
+	
+	const guestbookForm = addGuestbookEntry
+    .preflight(guestbookFormSchema)
+    .enhance(async ({ form, submit, data }) => {
 		try {
 			const optimisticEntry = {
-				id: typeof data?.id === 'string' && data.id ? data.id : page.data.formId,
-				name: typeof data?.name === 'string' ? data.name.trim() : '',
-				message: typeof data?.message === 'string' ? data.message.trim() : '',
-				createdAt: new Date().toISOString(),
-				isPending: true
+				id: data.id,
+				name: data.name.trim(),
+				message: data.message.trim(),
+				createdAt: new Date().toISOString()
 			};
 
-			const submission = submit();
-			await submission.updates(
+
+			submit().updates(
 				getGuestbookEntries().withOverride((entries = []) => [optimisticEntry, ...entries])
 			);
-			const result = await submission;
-
-			if (result?.success) {
-				form.reset();
-			}
+			
+			form.reset();
+			uuidInput.value = crypto.randomUUID();
 		} catch (error) {
 			console.error('방명록 제출 실패', error);
 		}
@@ -51,17 +46,7 @@ const guestbookForm = baseForm.enhance(async ({ form, submit, data }) => {
 			<form {...guestbookForm}
 			      novalidate
 			      class="p-6 bg-white rounded-lg shadow-sm border border-slate-200 space-y-4">
-				<input type="hidden" name="id" value={page.data.formId} />
-				<div>
-					<label for="form-id" class="block text-sm font-medium text-slate-700 mb-2">엔트리 ID</label>
-					<input
-						id="form-id"
-						type="text"
-						value={page.data.formId}
-						readonly
-						class="w-full px-3 py-2 rounded-md border border-slate-200 bg-slate-100 text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-					/>
-				</div>
+				<input bind:this={uuidInput} type="hidden" name="id" value={page.data.formId} />
 				<div>
 					<label for="name" class="block text-sm font-medium text-slate-700 mb-2">이름</label>
 					<input 
@@ -74,8 +59,8 @@ const guestbookForm = baseForm.enhance(async ({ form, submit, data }) => {
 						required
 					/>
 					<small class="block text-red-600 text-sm mt-1">
-						{#if guestbookForm.issues?.name}
-							{#each guestbookForm.issues.name as issue}
+						{#if addGuestbookEntry.issues?.name}
+							{#each addGuestbookEntry.issues.name as issue}
 								{issue.message}
 							{/each}
 						{:else}
@@ -95,8 +80,8 @@ const guestbookForm = baseForm.enhance(async ({ form, submit, data }) => {
 						required
 					></textarea>
 					<small class="block text-red-600 text-sm mt-1">
-						{#if guestbookForm.issues?.message}
-							{#each guestbookForm.issues.message as issue}
+						{#if addGuestbookEntry.issues?.message}
+							{#each addGuestbookEntry.issues.message as issue}
 								{issue.message}
 							{/each}
 						{:else}
