@@ -11,16 +11,6 @@
 						Svelte와 SvelteKit의 다양한 기능들을 실험하고 비교할 수 있는 데모 코드 모음입니다.
 					</p>
 					<div class="mt-10 flex flex-wrap gap-4">
-						<a href="/await"
-						   class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-slate-800">
-							데모 둘러보기
-							<svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4" fill="none"
-								 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-								 stroke-width="1.75">
-								<path d="M5 12h14"/>
-								<path d="M13 6l6 6-6 6"/>
-							</svg>
-						</a>
 						<a href="https://github.com/bunnyholes/sveltehole"
 						   class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50">
 							GitHub 리포지토리
