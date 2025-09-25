@@ -10,7 +10,7 @@ export const getGuestbookItem = query(v.string(), async (id) => {
 	const event = getRequestEvent();
 	const db = event.locals.db;
 	
-	await applyRandomDelay('getGuestbookItem', id);
+	await applyRandomDelay();
 
 	return await db
 			.select()
@@ -24,7 +24,7 @@ export const getGuestbookItems = query.batch(v.string(), async (ids) => {
 	const event = getRequestEvent();
 	const db = event.locals.db;
 	
-	await applyRandomDelay('getGuestbookItems', `[${ids.join(',')}]`);
+	await applyRandomDelay();
 	
 	// 모든 ID를 한 번의 쿼리로 조회
 	const results = await db
@@ -62,7 +62,7 @@ export const getGuestbookEntries = query(async () => {
 	const event = getRequestEvent();
 	const db = event.locals.db;
 	
-	await applyRandomDelay('getGuestbookEntries');
+	await applyRandomDelay();
 
 	return await db
 		.select()

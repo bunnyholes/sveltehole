@@ -1,5 +1,12 @@
 <script>
-	import { getGuestbookEntries } from '../data.remote.js';
+	import { getGuestbookItems } from '../data.remote.js';
+
+		const itemIds = [
+			'00000000-0000-4000-8000-guestbook001',
+			'00000000-0000-4000-8000-guestbook002',
+			'00000000-0000-4000-8000-guestbook003',
+			'00000000-0000-4000-8000-guestbook004'
+		];
 </script>
 
 <svelte:head>
@@ -16,24 +23,23 @@
 		<div class="flex justify-end mb-4">
 			<button
 					class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-sm font-medium"
-					onclick={() => getGuestbookEntries().refresh()}
+					onclick={() => {
+				// 배치 쿼리의 경우 개별 ID로 refresh 호출
+				itemIds.forEach(id => getGuestbookItems(id).refresh());
+			}}
 			>
 				Refresh
 			</button>
 		</div>
 
 		<div class="space-y-4">
-			<h3 class="text-lg font-medium text-slate-900">전체 방명록</h3>
-			<div class="space-y-3">
-				{#await getGuestbookEntries()}
-					<div class="animate-pulse space-y-3">
-						{#each Array(3) as _}
-							<div class="p-4 bg-slate-200 rounded-lg h-20"></div>
-						{/each}
-					</div>
-				{:then entries}
-					{#if entries && entries.length > 0}
-						{#each entries as entry}
+			<h3 class="text-lg font-medium text-slate-900">개별 방명록 항목들</h3>
+			<div class="grid gap-4 md:grid-cols-2">
+				{#each itemIds as id}
+					{#await getGuestbookItems(id)}
+						<div class="p-4 bg-slate-200 rounded-lg h-20 animate-pulse"></div>
+					{:then entry}
+						{#if entry}
 							<div class="p-4 bg-white rounded-lg shadow-sm border border-slate-200">
 								<div class="flex justify-between items-start mb-2">
 									<h4 class="font-medium text-slate-900">{entry.name}</h4>
@@ -43,17 +49,17 @@
 								</div>
 								<p class="text-sm text-slate-600 leading-relaxed">{entry.message}</p>
 							</div>
-						{/each}
-					{:else}
-						<div class="text-center py-8 text-slate-500">
-							<p class="text-sm">아직 방명록이 없습니다.</p>
+						{:else}
+							<div class="p-4 bg-gray-50 rounded-lg text-center">
+								<p class="text-sm text-gray-500">항목을 찾을 수 없습니다.</p>
+							</div>
+						{/if}
+					{:catch error}
+						<div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+							<p class="text-red-800 text-sm">{error.message}</p>
 						</div>
-					{/if}
-				{:catch error}
-					<div class="p-4 bg-red-50 border border-red-200 rounded-lg">
-						<p class="text-red-800 text-sm">{error.message}</p>
-					</div>
-				{/await}
+					{/await}
+				{/each}
 			</div>
 		</div>
 
