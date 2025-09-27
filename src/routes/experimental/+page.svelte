@@ -1,39 +1,52 @@
 <script>
-	import FlaskConical from '@lucide/svelte/icons/flask-conical';
+	const demos = [
+		{
+			title: 'Query',
+			description: '독립 Remote Function 호출과 스트리밍 UX 비교',
+			link: '/experimental/remote-functions/query'
+		},
+		{
+			title: 'Query Batch',
+			description: '동일 데이터 요청을 배치해 N+1 문제 줄이기',
+			link: '/experimental/remote-functions/query-batch'
+		},
+		{
+			title: 'Form',
+			description: 'Form을 활용한 타입 안전한 데이터 제출과 유효성 검사',
+			link: '/experimental/remote-functions/form'
+		}
+	];
 </script>
 
-<div class="space-y-8">
-	<div class="text-center space-y-4">
-		<div class="flex justify-center">
-			<FlaskConical class="h-12 w-12 text-slate-600" />
-		</div>
-		<h1 class="text-4xl font-bold text-slate-900">실험실</h1>
-		<p class="text-lg text-slate-600">실험 기능을 활용한 데모 목록입니다.</p>
-	</div>
+<main class="p-4 space-y-8">
+    <header>
+        <h2 class="preset-typo-headline">실험실</h2>
+        <p class="preset-typo-caption">
+            실험 기능을 활용한 데모 목록입니다.
+        </p>
+    </header>
 
-	<div class="grid gap-6 md:grid-cols-2">
-		<a href="/experimental/await" class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow block">
-			<h3 class="text-xl font-semibold text-slate-900">await</h3>
-			<p class="text-slate-600 mt-2">SSR과 await 방식 비교</p>
-		</a>
-		<a href="/experimental/remote-functions" class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow block">
-			<h3 class="text-xl font-semibold text-slate-900">remote functions</h3>
-			<p class="text-slate-600 mt-2">타입 안전한 서버-클라이언트 통신</p>
-		</a>
-	</div>
+	<section class="grid">
+        <header>
+            <h3 class="preset-typo-title mb-4">하위 페이지</h3>
+        </header>
 
-	<div class="space-y-2">
-		<a href="/experimental/remote-functions/query" class="flex items-center justify-between rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 hover:border-blue-200 hover:bg-blue-50 transition-colors">
-			<span>Remote Functions · Query</span>
-			<span>→</span>
+		<a href="/experimental/remote-functions" class="card p-4 preset-filled-surface-300-700 hover:preset-filled-surface-400-600 ">
+			<h3 class="preset-typo-title">remote functions</h3>
+			<p class="preset-typo-body-2 mt-2">타입 안전한 서버-클라이언트 통신</p>
 		</a>
-		<a href="/experimental/remote-functions/query-batch" class="flex items-center justify-between rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 hover:border-emerald-200 hover:bg-emerald-50 transition-colors">
-			<span>Remote Functions · Query Batch</span>
-			<span>→</span>
-		</a>
-		<a href="/experimental/remote-functions/form" class="flex items-center justify-between rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 hover:border-purple-200 hover:bg-purple-50 transition-colors">
-			<span>Remote Functions · Form</span>
-			<span>→</span>
-		</a>
-	</div>
-</div>
+	</section>
+
+    <section class="space-y-2">
+        <header>
+            <h3 class="preset-typo-title mb-4">데모 선택</h3>
+        </header>
+
+        {#each demos as demo}
+            <a href={demo.link} class="flex flex-col card p-4 preset-filled-surface-300-700 hover:preset-filled-surface-400-600 ">
+                <h3 class="preset-typo-title">{demo.title}</h3>
+                <p class="preset-typo-body-2 mt-2">{demo.description}</p>
+            </a>
+        {/each}
+    </section>
+</main>

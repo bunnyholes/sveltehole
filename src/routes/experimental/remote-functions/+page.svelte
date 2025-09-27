@@ -22,30 +22,25 @@ const demos = [
 	<title>Remote Functions - Overview</title>
 </svelte:head>
 
-<section class="space-y-8">
-	<header class="space-y-3">
-		<h1 class="text-3xl font-bold text-slate-900">Remote Functions</h1>
-		<p class="text-lg text-slate-600">
+<main class="p-4 space-y-8">
+	<header>
+		<h2 class="preset-typo-headline mb-4">Remote Functions</h2>
+		<p class="preset-typo-caption">
 			SvelteKit의 Remote Function을 활용해 클라이언트-서버 간 타입 안전한 상호작용을 설계하는 방법을 살펴보세요.
 		</p>
 	</header>
 
-	<div class="space-y-2">
-		<h2 class="text-2xl font-semibold text-slate-900">데모 선택</h2>
-		<p class="text-slate-600 text-sm">확인하고 싶은 패턴을 선택하세요.</p>
-	</div>
+    <section class="space-y-2">
+        <header>
+            <h3 class="preset-typo-title mb-4">데모 선택</h3>
+        </header>
 
-	<div class="grid gap-6 md:grid-cols-2">
-		{#each demos as demo}
-			<a
-				href={demo.link}
-				class="block h-full rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-			>
-			<div class="space-y-2">
-				<h3 class="text-xl font-semibold text-slate-900">{demo.title}</h3>
-				<p class="text-sm text-slate-600">{demo.description}</p>
-			</div>
-		</a>
-	{/each}
-	</div>
-</section>
+        {#each demos as demo}
+        <a href={demo.link} class="flex flex-col card p-4 preset-filled-surface-300-700 hover:preset-filled-surface-400-600 ">
+            <h3 class="preset-typo-title">{demo.title}</h3>
+            <p class="preset-typo-body-2 mt-2">{demo.description}</p>
+        </a>
+        {/each}
+    </section>
+
+</main>

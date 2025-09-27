@@ -1,28 +1,34 @@
 <script>
-	import { getGuestbookItems } from '../data.remote.js';
+	import { getGuestbookItems } from '$lib/remote/data.remote.js';
+	import GuestbookCard from '$lib/components/GuestbookCard.svelte';
 
-		const itemIds = [
-			'00000000-0000-4000-8000-guestbook001',
-			'00000000-0000-4000-8000-guestbook002',
-			'00000000-0000-4000-8000-guestbook003',
-			'00000000-0000-4000-8000-guestbook004'
-		];
+	const itemIds = [
+		'00000000-0000-4000-8000-guestbook001',
+		'00000000-0000-4000-8000-guestbook002',
+		'00000000-0000-4000-8000-guestbook003',
+		'00000000-0000-4000-8000-guestbook004'
+	];
 </script>
+
+
 
 <svelte:head>
 	<title>Remote Functions - Query Batch</title>
 </svelte:head>
 
-<section class="space-y-6">
-	<div class="space-y-3">
-		<h2 class="text-2xl font-semibold text-slate-900">Query Batch</h2>
-		<p class="text-slate-600">Remote Function의 <code>query.batch</code>를 활용한 예제입니다.</p>
-	</div>
+<main class="p-4 space-y-8">
+	<header>
+		<h2 class="preset-typo-headline">Query Batch</h2>
+		<p class="preset-typo-caption">
+			Remote Function의 <code>query.batch</code> 동작을 살펴보는 예제입니다.
+		</p>
+	</header>
 
-	<section class="mb-8 space-y-6">
-		<div class="flex justify-end mb-4">
+	<section class="space-y-2">
+		<header class="flex justify-between">
+			<h3 class="preset-typo-title flex-1">데모</h3>
 			<button
-					class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-sm font-medium"
+					class="btn preset-filled-tertiary-500"
 					onclick={() => {
 				// 배치 쿼리의 경우 개별 ID로 refresh 호출
 				itemIds.forEach(id => getGuestbookItems(id).refresh());
@@ -30,44 +36,73 @@
 			>
 				Refresh
 			</button>
-		</div>
+		</header>
 
-		<div class="space-y-4">
-			<h3 class="text-lg font-medium text-slate-900">개별 방명록 항목들</h3>
-			<div class="grid gap-4 md:grid-cols-2">
+		<div class="grid gap-2 md:grid-cols-2">
 				{#each itemIds as id}
-					{#await getGuestbookItems(id)}
-						<div class="p-4 bg-slate-200 rounded-lg h-20 animate-pulse"></div>
-					{:then entry}
-						{#if entry}
-							<div class="p-4 bg-white rounded-lg shadow-sm border border-slate-200">
-								<div class="flex justify-between items-start mb-2">
-									<h4 class="font-medium text-slate-900">{entry.name}</h4>
-									<time class="text-xs text-slate-500">
-										{new Date(entry.createdAt).toLocaleDateString('ko-KR')}
-									</time>
-								</div>
-								<p class="text-sm text-slate-600 leading-relaxed">{entry.message}</p>
-							</div>
-						{:else}
-							<div class="p-4 bg-gray-50 rounded-lg text-center">
-								<p class="text-sm text-gray-500">항목을 찾을 수 없습니다.</p>
-							</div>
-						{/if}
-					{:catch error}
-						<div class="p-4 bg-red-50 border border-red-200 rounded-lg">
-							<p class="text-red-800 text-sm">{error.message}</p>
+					{@const query = getGuestbookItems(id)}
+					
+					{#if query.error}
+						<div class="p-4 bg-error-100-900 border border-error-200-800 rounded-lg">
+							<p class="preset-typo-caption text-error-500">{query.error.message}</p>
 						</div>
-					{/await}
+					{:else if !query.current && !query.loading}
+						<div class="p-4 bg-surface-200-800 rounded-lg text-center">
+							<p class="preset-typo-caption text-surface-600-400">항목을 찾을 수 없습니다.</p>
+						</div>
+					{:else}
+						<GuestbookCard entry={query.loading ? null : query.current} />
+					{/if}
 				{/each}
-			</div>
-		</div>
-
-		<div class="p-5 bg-emerald-50 border border-emerald-200 rounded-xl">
-			<p class="text-sm text-emerald-900">
-				<strong>🚀 Batch 패턴:</strong> Remote Function의 <code>query.batch</code>를 사용하면 여러 데이터를 한 번의 요청으로 효율적으로 가져올 수 있습니다. 대량의 데이터를 처리할 때 네트워크 비용을 크게 줄여줍니다.
-			</p>
 		</div>
 	</section>
 
-</section>
+	<article class="card preset-filled-primary-200-800 divide-y divide-primary-300-700">
+		<header class="p-4">
+			<h2 class="preset-typo-title text-primary-700-300">SvelteKit query.batch의 의의</h2>
+		</header>
+		
+		<div class="p-4 space-y-6">
+			<section>
+				<h3 class="preset-typo-title text-primary-700-300 mb-3">핵심 개념 (공식 문서)</h3>
+				<p class="text-primary-600-400">
+					"query.batch는 query와 동일하게 작동하지만, 동일한 매크로태스크 내에서 발생하는 요청들을 배치 처리합니다."
+				</p>
+			</section>
+			
+			<section>
+				<h3 class="preset-typo-title text-primary-700-300 mb-3">개발자 관점</h3>
+				<ul class="list-disc list-inside space-y-2 text-primary-600-400">
+					<li>사용법 - <code class="px-1 py-0.5 rounded preset-filled-primary-100-900">getGuestbookItems(id)</code> - 단일 키 조회처럼 사용</li>
+					<li>각 컴포넌트는 독립적으로 자신의 데이터만 요청</li>
+					<li>일반 query와 100% 동일한 API</li>
+				</ul>
+			</section>
+			
+			<section>
+				<h3 class="preset-typo-title text-primary-700-300 mb-3">프레임워크 백그라운드</h3>
+				<ul class="list-disc list-inside space-y-2 text-primary-600-400">
+					<li>동일 매크로태스크의 모든 호출을 자동 수집</li>
+					<li>N개 요청 → 1개 배치 요청으로 자동 변환</li>
+					<li><code class="px-1 py-0.5 rounded preset-filled-primary-100-900">WHERE id IN (...)</code> 단일 쿼리로 최적화</li>
+				</ul>
+			</section>
+			
+			<section>
+				<h3 class="preset-typo-title text-primary-700-300 mb-3">비교</h3>
+				<ul class="list-disc list-inside space-y-2 text-primary-600-400">
+					<li><strong>일반 query</strong> - 4개 호출 = 4번 DB 쿼리 = 4번 네트워크 요청</li>
+					<li><strong>query.batch</strong> - 4개 호출 = 1번 DB 쿼리 = 1번 네트워크 요청</li>
+				</ul>
+			</section>
+		</div>
+		
+		<footer class="p-4 preset-filled-primary-100-900">
+			<h3 class="preset-typo-title text-primary-700-300 mb-2">실제 활용</h3>
+			<p class="text-primary-600-400">
+				댓글 작성자, 장바구니 상품, 팔로워 프로필 등 N+1 문제 자동 해결
+			</p>
+		</footer>
+	</article>
+
+</main>

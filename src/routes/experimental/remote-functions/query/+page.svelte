@@ -1,5 +1,6 @@
 <script>
-    import { getGuestbookItem } from '../data.remote.js';
+    import { getGuestbookItem } from '$lib/remote/data.remote.js';
+    import GuestbookCard from '$lib/components/GuestbookCard.svelte';
 
     const itemIds = [
         '00000000-0000-4000-8000-guestbook001',
@@ -9,20 +10,25 @@
     ];
 </script>
 
+
+
 <svelte:head>
 	<title>Remote Functions - Query</title>
 </svelte:head>
 
-<section class="space-y-6">
-	<div class="space-y-3">
-		<h2 class="text-2xl font-semibold text-slate-900">Query</h2>
-		<p class="text-slate-600">Remote Function의 Query를 활용한 예제입니다.</p>
-	</div>
+<main class="p-4 space-y-8">
+    <header>
+        <h2 class="preset-typo-headline">Query</h2>
+        <p class="preset-typo-caption">
+            Remote Function의 <code>query</code>를 활용한 예제입니다.
+        </p>
+    </header>
 
-    <section class="mb-8 space-y-6">
-        <div class="flex justify-end mb-4">
+    <section class="space-y-2">
+        <header class="flex justify-between">
+            <h3 class="preset-typo-title flex-1">데모</h3>
             <button
-                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                    class="btn preset-filled-tertiary-500"
                     onclick={() => {
                         // 각 아이템 ID에 대해 개별적으로 refresh 호출
                         itemIds.forEach(id => getGuestbookItem(id).refresh());
@@ -30,47 +36,63 @@
             >
                 Refresh
             </button>
-        </div>
+        </header>
         
-        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {#each itemIds as id}
-                {#await getGuestbookItem(id)}
-                    <!-- 로딩 상태 -->
-                    <div class="bg-slate-200 rounded-lg h-20 animate-pulse"></div>
-                {:then item}
-                    {#if item}
-                        <div class="p-4 bg-white rounded-lg shadow-sm border border-slate-200">
-                            <div class="flex justify-between items-start mb-2">
-                                <h4 class="font-medium text-slate-900">{item.name}</h4>
-                                <time class="text-xs text-slate-500">
-                                    {new Date(item.createdAt).toLocaleDateString('ko-KR')}
-                                </time>
-                            </div>
-                            <p class="text-sm text-slate-600 leading-relaxed">{item.message}</p>
-                        </div>
-                    {:else}
-                        <div class="p-4 bg-white rounded-lg shadow-sm border border-slate-200">
-                            <div class="text-center py-4 text-slate-500">
-                                <p class="text-sm">방명록을 찾을 수 없습니다.</p>
-                            </div>
-                        </div>
-                    {/if}
-                {:catch error}
-                    <div class="p-4 bg-white rounded-lg shadow-sm border border-red-200">
-                        <div class="text-center py-4 text-red-500">
-                            <p class="text-sm font-medium">로딩 실패</p>
-                            <p class="text-xs mt-1">{error.message}</p>
-                        </div>
-                    </div>
-                {/await}
-            {/each}
-        </div>
+        {#each itemIds as id}
+            {@const query = getGuestbookItem(id)}
 
-        <div class="p-5 bg-amber-50 border border-amber-200 rounded-xl">
-            <p class="text-sm text-amber-900">
-                <strong>🚦 성능 주의:</strong> 이 데모는 매 렌더마다 최대 4개의 네트워크 요청이 발생합니다. 동일 유형의 데이터를 여러 아이디로 불러오는 경우에는 <a href="/experimental/remote-functions/query-batch" class="font-semibold text-amber-900 underline underline-offset-2">Query Batch Demo</a>처럼 <code>query.batch</code>를 적용해 하나의 요청으로 묶는 것이 비용을 크게 줄여줍니다.
-            </p>
-        </div>
+            {#if query.error}
+                <div class="p-4 bg-error-100-900 rounded-lg border border-error-200-800">
+                    <div class="text-center py-4 text-error-500">
+                        <p class="preset-typo-caption font-medium">로딩 실패</p>
+                        <p class="preset-typo-caption mt-1 text-error-400-600">{query.error.message}</p>
+                    </div>
+                </div>
+            {:else if !query.current && !query.loading}
+                <div class="p-4 bg-surface-200-800 rounded-lg text-center">
+                    <p class="preset-typo-caption text-surface-600-400">방명록을 찾을 수 없습니다.</p>
+                </div>
+            {:else}
+                <GuestbookCard entry={query.loading ? null : query.current} />
+            {/if}
+        {/each}
+
     </section>
 
-</section>
+    <article class="card preset-filled-primary-200-800 divide-y divide-primary-300-700">
+        <header class="p-4">
+            <h2 class="preset-typo-title text-primary-700-300">N+1 문제 발생</h2>
+        </header>
+        
+        <div class="p-4 space-y-6">
+            <section>
+                <h3 class="preset-typo-title text-primary-700-300 mb-3">현재 상황</h3>
+                <ul class="list-disc list-inside space-y-2 text-primary-600-400">
+                    <li>4개의 개별 DB 쿼리가 실행되고 있습니다</li>
+                    <li>각 <code class="px-1 py-0.5 rounded preset-filled-primary-100-900">getGuestbookItem(id)</code> 호출이 별도의 네트워크 요청을 생성</li>
+                    <li>개발자 도구 Network 탭에서 4개의 개별 요청 확인 가능</li>
+                    <li>응답 시간: ~200ms × 4 = ~800ms (순차적일 경우)</li>
+                </ul>
+            </section>
+            
+            <section>
+                <h3 class="preset-typo-title text-primary-700-300 mb-3">실제 문제 상황</h3>
+                <ul class="list-disc list-inside space-y-2 text-primary-600-400">
+                    <li>100개 댓글 = 100번 DB 쿼리 (매우 느림)</li>
+                    <li>서버 부하 증가, DB 커넥션 풀 고갈 위험</li>
+                </ul>
+            </section>
+        </div>
+        
+        <footer class="p-4 preset-filled-primary-100-900">
+            <h3 class="preset-typo-title text-primary-700-300 mb-2">해결 방법</h3>
+            <p class="text-primary-600-400">
+                <a href="/experimental/remote-functions/query-batch" class="font-semibold text-primary-700-300 underline underline-offset-4 hover:text-primary-800-200">
+                    Query Batch 데모
+                </a>에서 
+                <code class="px-1 py-0.5 rounded preset-filled-primary-100-900">query.batch</code>로 해결된 모습을 확인하세요
+            </p>
+        </footer>
+    </article>
+
+</main>

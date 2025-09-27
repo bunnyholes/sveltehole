@@ -1,9 +1,12 @@
 <script>
-	import { addGuestbookEntry, getGuestbookEntries } from '../data.remote.js';
+	import { addGuestbookEntry, getGuestbookEntries } from '$lib/remote/data.remote.js';
 	import { page } from '$app/state';
 	import { guestbookFormSchema } from '$lib/validation/guestbookFormSchema.js';
+	import GuestbookCard from '$lib/components/GuestbookCard.svelte';
 
 	let uuidInput = $state();
+	
+	const entriesQuery = getGuestbookEntries();
 	
 	const guestbookForm = addGuestbookEntry
     .preflight(guestbookFormSchema)
@@ -29,124 +32,132 @@
 	});
 </script>
 
+
+
 <svelte:head>
 	<title>Remote Functions - Form</title>
 </svelte:head>
 
-<section class="space-y-6">
-	<div class="space-y-3">
-		<h2 class="text-2xl font-semibold text-slate-900">Form</h2>
-		<p class="text-slate-600">Remote Function의 Form을 활용한 예제입니다.</p>
-	</div>
 
-	<div class="grid gap-6 lg:grid-cols-2">
-		<!-- 폼 섹션 -->
-		<div class="space-y-4">
-			<h3 class="text-lg font-medium text-slate-900">방명록 작성</h3>
+<main class="p-4 space-y-8">
+	<header>
+		<h2 class="preset-typo-headline">Form</h2>
+		<p class="preset-typo-caption">
+			Remote Function의 <code>form</code> 패턴으로 타입 안전한 폼 제출을 구현하는 예제입니다.
+		</p>
+	</header>
+
+	<!-- 방명록 작성 섹션 -->
+	<section class="space-y-2">
+		<h3 class="preset-typo-title">방명록 작성</h3>
 			<form {...guestbookForm}
 			      novalidate
-			      class="p-6 bg-white rounded-lg shadow-sm border border-slate-200 space-y-4">
+			      class="card bg-surface-200-800 border border-surface-200-800 p-6 shadow-sm space-y-4">
 				<input bind:this={uuidInput} type="hidden" name="id" value={page.data.formId} />
 				<div>
-					<label for="name" class="block text-sm font-medium text-slate-700 mb-2">이름</label>
+					<label for="name" class="block preset-typo-caption text-surface-600-400 mb-2">이름</label>
 					<input 
 						id="name"
 						name="name" 
 						type="text"
 						placeholder="이름을 입력해주세요" 
-						class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+						class="input focus:outline-none focus:ring-2 focus:ring-primary-400-600"
 						maxlength="16"
 						required
 					/>
-					<small class="block text-red-600 text-sm mt-1">
-						{#if addGuestbookEntry.issues?.name}
-							{#each addGuestbookEntry.issues.name as issue}
-								{issue.message}
-							{/each}
-						{:else}
-							&nbsp;
-						{/if}
-					</small>
+					<div class="mt-1">
+						<p class="preset-typo-caption {addGuestbookEntry.issues?.name ? 'text-error-600-400' : 'text-surface-500-500'}">
+							{#if addGuestbookEntry.issues?.name}
+								{#each addGuestbookEntry.issues.name as issue}
+									{issue.message}
+								{/each}
+							{:else}
+								&nbsp;
+							{/if}
+						</p>
+					</div>
 				</div>
 				
 				<div>
-					<label for="message" class="block text-sm font-medium text-slate-700 mb-2">메시지</label>
+					<label for="message" class="block preset-typo-caption text-surface-600-400 mb-2">메시지</label>
 					<textarea 
 						id="message"
 						name="message" 
 						placeholder="메시지를 입력해주세요..." 
-						class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24 resize-none"
+						class="textarea focus:outline-none focus:ring-2 focus:ring-primary-400-600 h-24 resize-none"
 						maxlength="128"
 						required
 					></textarea>
-					<small class="block text-red-600 text-sm mt-1">
-						{#if addGuestbookEntry.issues?.message}
-							{#each addGuestbookEntry.issues.message as issue}
-								{issue.message}
-							{/each}
-						{:else}
-							&nbsp;
-						{/if}
-					</small>
+					<div class="mt-1">
+						<p class="preset-typo-caption {addGuestbookEntry.issues?.message ? 'text-error-600-400' : 'text-surface-500-500'}">
+							{#if addGuestbookEntry.issues?.message}
+								{#each addGuestbookEntry.issues.message as issue}
+									{issue.message}
+								{/each}
+							{:else}
+								&nbsp;
+							{/if}
+						</p>
+					</div>
 				</div>
 				
 				<button 
 					type="submit"
-					class="w-full px-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-				>
+					class="btn btn-base preset-filled-primary-500 w-full">
 					작성하기
 				</button>
 				
 				{#if guestbookForm.result}
 					{#if guestbookForm.result.success}
-						<p class="text-green-600 text-sm">✅ 메시지가 등록되었습니다!</p>
+						<p class="preset-typo-caption text-success-600-400">메시지가 등록되었습니다!</p>
 					{:else}
-						<p class="text-red-600 text-sm">⚠️ {guestbookForm.result.message}</p>
+						<p class="preset-typo-caption text-error-600-400">{guestbookForm.result.message}</p>
 					{/if}
 				{/if}
-			</form>
-		</div>
+		</form>
+	</section>
 
-		<!-- 전체 방명록 섹션 -->
-		<div class="space-y-4">
-			<h3 class="text-lg font-medium text-slate-900">전체 방명록</h3>
-			<div class="space-y-3">
-				{#await getGuestbookEntries()}
-					<div class="animate-pulse space-y-3">
-						{#each Array(3) as _}
-							<div class="p-4 bg-slate-200 rounded-lg h-20"></div>
-						{/each}
+	<!-- 전체 방명록 조회 섹션 -->
+	<section class="space-y-2">
+			<header class="flex justify-between">
+				<h3 class="preset-typo-title flex-1">전체 방명록</h3>
+				<button
+					class="btn preset-filled-tertiary-500"
+					onclick={() => entriesQuery.refresh()}
+				>
+					Refresh
+				</button>
+			</header>
+			<div class="space-y-2">
+				{#if entriesQuery.error}
+					<div class="p-4 bg-error-100-900 border border-error-200-800 rounded-lg">
+						<p class="preset-typo-caption text-error-500">{entriesQuery.error.message}</p>
 					</div>
-				{:then entries}
-					{#if entries.length > 0}
-						{#each entries as entry}
-							<div class="p-4 bg-white rounded-lg shadow-sm border transition-all {entry.isPending ? 'border-blue-200' : 'border-slate-200'}">
-								<div class="flex justify-between items-start mb-2">
-									<h4 class="font-medium text-slate-900">{entry.name}</h4>
-									<time class="text-xs text-slate-500">
-										{new Date(entry.createdAt).toLocaleDateString('ko-KR')}
-									</time>
-								</div>
-								<p class="text-sm text-slate-600 leading-relaxed">{entry.message}</p>
-							</div>
-						{/each}
-					{:else}
-						<div class="text-center py-8 text-slate-500">
-							<p class="text-sm">아직 방명록이 없습니다.</p>
-						</div>
-					{/if}
-				{:catch error}
-					<div class="p-4 bg-red-50 border border-red-200 rounded-lg">
-						<p class="text-red-800 text-sm">{error.message}</p>
+				{:else if entriesQuery.loading}
+					{#each Array(3) as _}
+						<GuestbookCard />
+					{/each}
+				{:else if entriesQuery.current?.length > 0}
+					{#each entriesQuery.current as entry}
+						<GuestbookCard {entry} />
+					{/each}
+				{:else}
+					<div class="text-center py-8 text-surface-400-600">
+						<p class="preset-typo-caption">아직 방명록이 없습니다.</p>
 					</div>
-				{/await}
-			</div>
+				{/if}
 		</div>
-	</div>
+	</section>
 
-	<div class="p-5 bg-blue-50 border border-blue-200 rounded-xl">
-		<p class="text-sm text-blue-900">
-			<strong>📝 Form 패턴:</strong> Remote Function의 <code>form</code>을 사용하여 타입 안전한 폼 제출과 실시간 유효성 검사를 구현합니다. 제출 후 관련 쿼리가 자동으로 새로고침됩니다.
-		</p>
-	</div>
-</section>
+	<article class="card preset-filled-primary-200-800 divide-y divide-primary-300-700">
+		<header class="p-4">
+			<h2 class="preset-typo-title text-primary-700-300">Form 패턴</h2>
+		</header>
+		
+		<div class="p-4">
+			<p class="text-primary-600-400">
+				Remote Function의 <code class="px-1 py-0.5 rounded bg-primary-100-900">form</code>을 사용해 타입 안전한 폼 제출과 실시간 유효성 검사를 구현하며, 제출 후 관련 쿼리가 자동으로 새로 고침됩니다.
+			</p>
+		</div>
+	</article>
+</main>
