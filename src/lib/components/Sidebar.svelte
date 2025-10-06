@@ -1,14 +1,7 @@
 <script>
-	import BarChart3 from '@lucide/svelte/icons/bar-chart-3';
 	import FlaskConical from '@lucide/svelte/icons/flask-conical';
-	import Palette from '@lucide/svelte/icons/palette';
-	import Rocket from '@lucide/svelte/icons/rocket';
 	import Settings from '@lucide/svelte/icons/settings';
-	import Clock from '@lucide/svelte/icons/clock';
 	import Network from '@lucide/svelte/icons/network';
-	import { page } from '$app/state';
-
-	const currentPath = $derived(page.url.pathname);
 </script>
 
 <!--

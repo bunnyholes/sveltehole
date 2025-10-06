@@ -201,6 +201,7 @@
 					</div>
 				</aside>
 			{:else if entriesQuery.loading}
+				<!-- eslint-disable-next-line no-unused-vars -->
 				{#each Array(3) as _}
 					<GuestbookCard />
 				{/each}
