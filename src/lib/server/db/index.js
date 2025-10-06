@@ -3,6 +3,9 @@ import { drizzle as drizzleD1 } from 'drizzle-orm/d1';
 import Database from 'better-sqlite3';
 import * as schema from './schema';
 
+/**
+ * @param {any} platform
+ */
 export function createDb(platform) {
 	if (platform?.env?.DB) {
 		// Cloudflare D1 환경

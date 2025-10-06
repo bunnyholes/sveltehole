@@ -29,7 +29,7 @@ const seedData = [
 	},
 	{
 		id: '00000000-0000-4000-8000-guestbook002',
-		name: '이영희', 
+		name: '이영희',
 		message: '방명록 기능이 잘 작동하네요~ 모바일에서도 깔끔하게 보여요!',
 		createdAt: new Date(Date.now() - 30 * 60 * 1000) // 30분 전
 	},

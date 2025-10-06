@@ -1,6 +1,9 @@
 test-results
 node_modules
 
+# Lock files (project uses pnpm)
+package-lock.json
+
 # Output
 .output
 .vercel

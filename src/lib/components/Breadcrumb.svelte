@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 
 	const segments = $derived(page.url.pathname.split('/').filter(Boolean));
-	
+
 	const breadcrumbItems = $derived([
 		{ label: '/', href: '/' },
 		...segments.map((segment, index) => ({
@@ -17,10 +17,7 @@
 		{#each breadcrumbItems as item, index (item.label)}
 			<li class="flex items-center gap-3">
 				{#if item.href}
-					<a
-						href={item.href}
-						class="text-surface-600-400 hover:text-primary-500 hover:underline"
-					>
+					<a href={item.href} class="text-surface-600-400 hover:text-primary-500 hover:underline">
 						{item.label}
 					</a>
 				{:else}

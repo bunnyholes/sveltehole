@@ -5,7 +5,7 @@
 	import { m } from '$lib/paraglide/messages.js';
 </script>
 
-<section class="px-6 py-12 space-y-4">
+<section class="space-y-4 px-6 py-12">
 	<h1>{m.hello_world({ name: 'SvelteKit User' })}</h1>
 	<div>
 		<button onclick={() => setLocale('ko')}>ko</button>
@@ -14,10 +14,11 @@
 	<p>
 		If you use VSCode, install the <a
 			href="https://marketplace.visualstudio.com/items?itemName=inlang.vs-code-extension"
-			target="_blank" rel="noreferrer noopener"
+			target="_blank"
+			rel="noreferrer noopener"
 		>
 			Sherlock i18n extension
 		</a>
-		 for a better i18n experience.
+		for a better i18n experience.
 	</p>
 </section>
