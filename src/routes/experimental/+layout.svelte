@@ -3,7 +3,7 @@
 	const { children } = $props();
 </script>
 
-<div class="container mx-auto max-w-6xl px-6 py-8 space-y-6">
+<div class="container mx-auto max-w-6xl space-y-6 px-6 py-8">
 	<Breadcrumb />
-    {@render children?.()}
+	{@render children?.()}
 </div>
