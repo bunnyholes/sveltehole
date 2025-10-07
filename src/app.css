@@ -47,7 +47,7 @@
 	}
 }
 
-@utility {
+@layer utilities {
     /*
       Copy the following classes to your global stylesheet. Rename and modify as desired.
       Reference: http://skeleton.dev/docs/get-started/core-api#typography
