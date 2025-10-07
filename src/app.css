@@ -23,35 +23,31 @@
 
 	/* Article Typography */
 	article h1 {
-		@apply text-4xl lg:text-5xl font-bold mb-4;
+		@apply h1;
 	}
 
 	article h2 {
-		@apply text-3xl lg:text-4xl font-bold mb-3;
+		@apply h2;
 	}
 
 	article h3 {
-		@apply text-2xl lg:text-3xl font-semibold mb-2;
+		@apply h3;
 	}
 
 	article h4 {
-		@apply text-xl lg:text-2xl font-semibold mb-2;
+		@apply h4;
 	}
 
 	article h5 {
-		@apply text-lg lg:text-xl font-semibold mb-1;
+		@apply h5;
 	}
 
 	article h6 {
-		@apply text-base lg:text-lg font-semibold mb-1;
-	}
-
-	article p {
-		@apply text-base lg:text-lg leading-relaxed;
+		@apply h6;
 	}
 }
 
-@layer utilities {
+@utility {
     /*
       Copy the following classes to your global stylesheet. Rename and modify as desired.
       Reference: http://skeleton.dev/docs/get-started/core-api#typography

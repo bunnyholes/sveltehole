@@ -18,7 +18,7 @@
     
     <time class={{
       'preset-typo-caption': true,
-      'placeholder w-16 animate-pulse': !entry
+      'placeholder w-24 animate-pulse': !entry
     }}>
       {entry?.createdAt ? new Date(entry.createdAt).toLocaleDateString('ko-KR') : '\u00A0'}
     </time>

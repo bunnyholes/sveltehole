@@ -21,7 +21,7 @@
 	<header>
 		<h1>Query Batch</h1>
 		<p>
-			<code>query.batch</code>는 같은 틱에서 호출된 쿼리를 하나의 요청으로 묶습니다. N+1 문제를 자동으로 해결합니다.
+			<code>query.batch</code>는 같은 틱에서 호출된 쿼리를 하나의 요청으로 묶습니다. 다중 요청 문제를 자동으로 해결합니다.
 		</p>
 	</header>
 
@@ -69,14 +69,13 @@
 
 	<Callout.Root variant="info">
 		<Callout.Header>
-			장점
+			단일 요청으로 결합
 		</Callout.Header>
 
 		<Callout.Content>
 			<ul class="list-disc list-inside space-y-1 text-sm">
-				<li>4번 호출해도 네트워크와 DB 쿼리는 1번만 실행됩니다.</li>
+				<li>4번의 요청이 발생해도 네트워크와 DB 쿼리는 1번만 실행됩니다.</li>
 				<li>컴포넌트 코드 변경 없이 자동으로 최적화됩니다.</li>
-				<li>항목별 UI 구성을 유지하면서 N+1 문제를 해결합니다.</li>
 			</ul>
 		</Callout.Content>
 

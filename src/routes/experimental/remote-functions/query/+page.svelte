@@ -73,13 +73,13 @@
 
     <Callout.Root variant="info">
 		<Callout.Header>
-			N+1 문제
+			다중 요청 문제
 		</Callout.Header>
 
 		<Callout.Content>
             <ul class="list-disc list-inside space-y-1 text-sm">
-                <li>4개의 <code>query</code>가 각각 요청을 만들어 순차 대기합니다.</li>
-                <li>항목이 많아질수록 지연이 누적되고 서버 부하가 증가합니다.</li>
+                <li>4개의 <code>query</code>가 각각 요청이 발생합니다.</li>
+                <li>N개의 요청이 필수적으로 발생합니다.</li>
             </ul>
         </Callout.Content>
 
