@@ -18,35 +18,33 @@
 	];
 </script>
 
-<main class="p-4 space-y-8">
+<article class="p-4 space-y-8">
     <header>
-        <h2 class="preset-typo-headline">실험실</h2>
-        <p class="preset-typo-caption">
+        <h2>실험실</h2>
+        <p>
             실험 기능을 활용한 데모 목록입니다.
         </p>
     </header>
 
 	<section class="grid">
         <header>
-            <h3 class="preset-typo-title mb-4">하위 페이지</h3>
+            <h3 class="mb-4">개요 페이지</h3>
         </header>
 
-		<a href="/experimental/remote-functions" class="card p-4 preset-filled-surface-300-700 hover:preset-filled-surface-400-600 ">
-			<h3 class="preset-typo-title">remote functions</h3>
-			<p class="preset-typo-body-2 mt-2">타입 안전한 서버-클라이언트 통신</p>
+		<a href="/experimental/remote-functions" class="btn preset-filled-surface-300-700 w-full">
+			remote functions
 		</a>
 	</section>
 
     <section class="space-y-2">
         <header>
-            <h3 class="preset-typo-title mb-4">데모 선택</h3>
+            <h3 class="mb-4">빠른 실행</h3>
         </header>
 
         {#each demos as demo}
-            <a href={demo.link} class="flex flex-col card p-4 preset-filled-surface-300-700 hover:preset-filled-surface-400-600 ">
-                <h3 class="preset-typo-title">{demo.title}</h3>
-                <p class="preset-typo-body-2 mt-2">{demo.description}</p>
+            <a href={demo.link} class="btn preset-filled-secondary-300-700 w-full">
+				{demo.title}
             </a>
         {/each}
     </section>
-</main>
+</article>

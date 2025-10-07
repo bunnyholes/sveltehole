@@ -7,11 +7,23 @@
 	import Clock from '@lucide/svelte/icons/clock';
 	import Network from '@lucide/svelte/icons/network';
 	import {page} from '$app/state';
+	import {afterNavigate} from '$app/navigation';
 
 	const currentPath = $derived(page.url.pathname);
+
+	/** @type {HTMLElement | null} */
+	let sidebarElement = $state(null);
+
+	afterNavigate(() => {
+        sidebarElement?.hidePopover();
+	});
 </script>
 
-{#snippet sidebarItem(Icon, label, href = '#')}
+{#snippet sidebarItem(
+	/** @type {typeof import('@lucide/svelte').Icon} */ Icon,
+	/** @type {string} */ label,
+	/** @type {string} */ href = '#'
+)}
     <a
         href={href}
         class={`flex h-20 w-full hover:preset-filled-surface-400-600`}
@@ -25,7 +37,7 @@
     </a>
 {/snippet}
 
-<aside class="group fixed sm:left-0 sm:top-0  w-full sm:w-20 sm:open:w-80 h-screen
+<aside bind:this={sidebarElement} class="group fixed sm:left-0 sm:top-0  w-full sm:w-20 sm:open:w-80 h-screen
              transition-discrete
              starting:open:opacity-0 
              transition-opacity
@@ -48,7 +60,7 @@
                 </svg>
             </button>
             <div class="flex-1 content-center-safe px-6">
-                <p class="preset-typo-title uppercase">Menu</p>
+                <p class="uppercase">Menu</p>
             </div>
         </header>
 
@@ -62,7 +74,7 @@
 
         <!-- 푸터: 설정 아이콘 -->
         <footer class="flex flex-col w-full text-surface-400-600">
-            {@render sidebarItem(Settings, 'Settings')}
+            {@render sidebarItem(Settings, 'Settings', '/settings')}
         </footer>
     </div>
 </aside>
@@ -89,6 +101,6 @@
      사이드바는 모바일 퍼스트에서는 없고 버튼이 존재해야하는데 그 공간을 만들기 위한 여백
      */
     :global(#main-header) {
-        @apply ml-20 sm:ml-0;
+        @apply pl-20 sm:ml-0;
     }
 </style>

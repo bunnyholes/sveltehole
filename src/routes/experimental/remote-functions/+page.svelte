@@ -22,25 +22,24 @@ const demos = [
 	<title>Remote Functions - Overview</title>
 </svelte:head>
 
-<main class="p-4 space-y-8">
+<article class="p-4 space-y-8">
 	<header>
-		<h2 class="preset-typo-headline mb-4">Remote Functions</h2>
-		<p class="preset-typo-caption">
+		<h2 class="mb-4">Remote Functions</h2>
+		<p>
 			SvelteKit의 Remote Function을 활용해 클라이언트-서버 간 타입 안전한 상호작용을 설계하는 방법을 살펴보세요.
 		</p>
 	</header>
 
     <section class="space-y-2">
         <header>
-            <h3 class="preset-typo-title mb-4">데모 선택</h3>
+            <h3 class="mb-4">빠른 실행</h3>
         </header>
 
         {#each demos as demo}
-        <a href={demo.link} class="flex flex-col card p-4 preset-filled-surface-300-700 hover:preset-filled-surface-400-600 ">
-            <h3 class="preset-typo-title">{demo.title}</h3>
-            <p class="preset-typo-body-2 mt-2">{demo.description}</p>
+        <a href={demo.link} class="btn preset-filled-secondary-300-700 w-full">
+			{demo.title}
         </a>
         {/each}
     </section>
 
-</main>
+</article>

@@ -74,26 +74,26 @@
 </svelte:head>
 
 
-<main class="p-4 space-y-8">
+<article class="p-4 space-y-8">
 	<header>
-		<h2 class="preset-typo-headline">Form</h2>
-		<p class="preset-typo-caption">
+		<h2>Form</h2>
+		<p>
 			Svelte Remote Functions의 <code>form</code> 패턴으로 타입 안전한 폼 제출과 Optimistic UI를 구현한 예제입니다.
 		</p>
 		<div class="mt-4 p-4 bg-surface-100-900 rounded-lg">
-			<h4 class="preset-typo-subtitle text-primary-600-400 mb-2">핵심 기능</h4>
-			<ul class="space-y-2 text-sm">
+			<h4 class="text-primary-600-400 mb-2">핵심 기능</h4>
+			<ul class="space-y-2">
 				<li class="flex gap-2">
 					<span class="text-primary-500">•</span>
-					<span><code class="text-xs">preflight()</code> - 클라이언트 측 유효성 검사로 불필요한 서버 요청 방지</span>
+					<span><code>preflight()</code> - 클라이언트 측 유효성 검사로 불필요한 서버 요청 방지</span>
 				</li>
 				<li class="flex gap-2">
 					<span class="text-primary-500">•</span>
-					<span><code class="text-xs">enhance()</code> - Progressive Enhancement로 JS 없이도 동작</span>
+					<span><code>enhance()</code> - Progressive Enhancement로 JS 없이도 동작</span>
 				</li>
 				<li class="flex gap-2">
 					<span class="text-primary-500">•</span>
-					<span><code class="text-xs">withOverride()</code> - Optimistic UI로 즉각적인 사용자 피드백</span>
+					<span><code>withOverride()</code> - Optimistic UI로 즉각적인 사용자 피드백</span>
 				</li>
 				<li class="flex gap-2">
 					<span class="text-primary-500">•</span>
@@ -105,7 +105,7 @@
 
 	<!-- 방명록 작성 섹션 -->
 	<section class="space-y-2">
-		<h3 class="preset-typo-title">방명록 작성</h3>
+		<h3>방명록 작성</h3>
         <form {...guestbookForm}
               novalidate
               class=" space-y-4">
@@ -175,10 +175,10 @@
 	<!-- 전체 방명록 조회 섹션 -->
 	<section class="space-y-2">
 			<header class="flex justify-between items-center">
-				<h3 class="preset-typo-title flex-1">전체 방명록</h3>
+				<h3 class="flex-1">전체 방명록</h3>
 				<div class="flex gap-2 items-center">
 					{#if entriesQuery.pending}
-						<span class="text-sm text-surface-500">새로고침 중...</span>
+						<span>새로고침 중...</span>
 					{/if}
 					<button
 						class="btn variant-filled-surface"
@@ -206,7 +206,7 @@
 					{/each}
 				{:else}
 					<div class="text-center py-8 text-surface-400-600">
-						<p class="preset-typo-caption">아직 방명록이 없습니다.</p>
+						<p>아직 방명록이 없습니다.</p>
 					</div>
 				{/if}
 		</div>
@@ -214,7 +214,7 @@
 
 	<!-- 기술 설명 섹션 -->
 	<section class="card preset-filled-primary-200-800 border border-primary-300-700 divide-y divide-primary-300-700" role="note">
-		<h3 class="preset-typo-title p-4">Remote Form 기술 스택 상세 분석</h3>
+		<h3 class="p-4">Remote Form 기술 스택 상세 분석</h3>
 		
 		<div class="p-4 space-y-4">
 			<div>
@@ -301,4 +301,4 @@
 		</div>
 	</section>
 
-</main>
+</article>
