@@ -91,7 +91,7 @@
 
             <button
                 type="submit"
-                class="block ml-auto btn preset-filled">
+                class="chip block ml-auto btn preset-filled">
                 작성하기
             </button>
 
