@@ -173,18 +173,13 @@
 	<section class="space-y-2">
 			<header class="flex justify-between items-center">
 				<h3 class="flex-1">전체 방명록</h3>
-				<div class="flex gap-2 items-center">
-					{#if entriesQuery.pending}
-						<span>새로고침 중...</span>
-					{/if}
-					<button
-						class="btn variant-filled-surface"
-						onclick={() => entriesQuery.refresh()}
-						disabled={entriesQuery.pending}
-					>
-						새로고침
-					</button>
-				</div>
+                <button
+                    class="btn btn-sm preset-tonal-surface"
+                    onclick={() => entriesQuery.refresh()}
+                    disabled={entriesQuery.pending}
+                >
+                    새로고침
+                </button>
 			</header>
 			<div class="space-y-2">
 				{#if entriesQuery.error}

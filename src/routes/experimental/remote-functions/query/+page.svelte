@@ -26,16 +26,15 @@
     </header>
 
     <section class="space-y-2">
-        <header class="flex justify-between">
+        <header class="flex justify-between items-center">
             <h3 class="flex-1">데모</h3>
             <button
-                    class="btn preset-filled-tertiary-500"
+                    class="btn btn-sm preset-tonal-surface"
                     onclick={() => {
-                        // 각 아이템 ID에 대해 개별적으로 refresh 호출
                         itemIds.forEach(id => getGuestbookItem(id).refresh());
                     }}
             >
-                Refresh
+                새로고침
             </button>
         </header>
         
