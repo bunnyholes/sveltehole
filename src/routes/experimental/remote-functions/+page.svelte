@@ -24,7 +24,7 @@ const demos = [
 
 <article class="p-4 space-y-8">
 	<header>
-		<h2 class="mb-4">Remote Functions</h2>
+		<h1>Remote Functions</h1>
 		<p>
 			SvelteKit의 Remote Function을 활용해 클라이언트-서버 간 타입 안전한 상호작용을 설계하는 방법을 살펴보세요.
 		</p>

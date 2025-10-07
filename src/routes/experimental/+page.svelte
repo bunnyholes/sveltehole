@@ -20,7 +20,7 @@
 
 <article class="p-4 space-y-8">
     <header>
-        <h2>실험실</h2>
+        <h1>실험실</h1>
         <p>
             실험 기능을 활용한 데모 목록입니다.
         </p>

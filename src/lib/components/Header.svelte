@@ -7,7 +7,7 @@
 	class="sticky top-0 flex h-20 bg-surface-50-950/70 backdrop-blur"
 >
 	<section class="flex-1 content-center-safe pl-6 overflow-x-auto">
-		<h1 class="uppercase">SvelteHole</h1>
+		<p class="uppercase text-xl font-bold">SvelteHole</p>
 	</section>
 	<section>
 		<a

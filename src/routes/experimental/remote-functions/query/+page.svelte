@@ -1,6 +1,7 @@
 <script>
     import { getGuestbookItem } from '$lib/remote/data.remote.js';
     import GuestbookCard from '$lib/components/GuestbookCard.svelte';
+    import * as Callout from '$lib/components/callout/index.js';
 
     const itemIds = [
         '00000000-0000-4000-8000-guestbook001',
@@ -18,7 +19,7 @@
 
 <article class="p-4 space-y-8">
     <header>
-        <h2>Query</h2>
+        <h1>Query</h1>
         <p>
             Remote Function의 <code>query</code>를 활용한 예제입니다.
         </p>
@@ -59,40 +60,37 @@
 
     </section>
 
-    <article class="card preset-filled-primary-200-800 divide-y divide-primary-300-700">
-        <header class="p-4">
-            <h2 class="text-primary-700-300">N+1 문제 발생</h2>
-        </header>
-        
-        <div class="p-4 space-y-6">
-            <section>
-                <h3 class="text-primary-700-300 mb-3">현재 상황</h3>
-                <ul class="list-disc list-inside space-y-2 text-primary-600-400">
+    <Callout.Root variant="info">
+		<Callout.Header>
+			N+1 문제 발생
+		</Callout.Header>
+		
+		<Callout.Content>
+            <section class="space-y-2">
+                <div class="font-semibold">현재 상황</div>
+                <ul class="list-disc list-inside">
                     <li>4개의 개별 DB 쿼리가 실행되고 있습니다</li>
-                    <li>각 <code class="px-1 py-0.5 rounded preset-filled-primary-100-900">getGuestbookItem(id)</code> 호출이 별도의 네트워크 요청을 생성</li>
+                    <li>각 <code>getGuestbookItem(id)</code> 호출이 별도의 네트워크 요청을 생성</li>
                     <li>개발자 도구 Network 탭에서 4개의 개별 요청 확인 가능</li>
                     <li>응답 시간: ~200ms × 4 = ~800ms (순차적일 경우)</li>
                 </ul>
             </section>
-            
-            <section>
-                <h3 class="text-primary-700-300 mb-3">실제 문제 상황</h3>
-                <ul class="list-disc list-inside space-y-2 text-primary-600-400">
+
+            <section class="space-y-2">
+                <div class="font-semibold">실제 문제 상황</div>
+                <ul class="list-disc list-inside">
                     <li>100개 댓글 = 100번 DB 쿼리 (매우 느림)</li>
                     <li>서버 부하 증가, DB 커넥션 풀 고갈 위험</li>
                 </ul>
             </section>
-        </div>
-        
-        <footer class="p-4 preset-filled-primary-100-900">
-            <h3 class="text-primary-700-300 mb-2">해결 방법</h3>
-            <p class="text-primary-600-400">
-                <a href="/experimental/remote-functions/query-batch" class="font-semibold text-primary-700-300 underline underline-offset-4 hover:text-primary-800-200">
-                    Query Batch 데모
-                </a>에서 
-                <code class="px-1 py-0.5 rounded preset-filled-primary-100-900">query.batch</code>로 해결된 모습을 확인하세요
-            </p>
-        </footer>
-    </article>
+        </Callout.Content>
+		
+		<Callout.Footer>
+            <a href="/experimental/remote-functions/query-batch" class="font-semibold underline underline-offset-4 hover:text-primary-800-200">
+                Query Batch 데모
+            </a>에서
+            <code>query.batch</code>로 해결된 모습을 확인하세요
+		</Callout.Footer>
+    </Callout.Root>
 
 </article>

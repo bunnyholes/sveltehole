@@ -101,6 +101,6 @@
      사이드바는 모바일 퍼스트에서는 없고 버튼이 존재해야하는데 그 공간을 만들기 위한 여백
      */
     :global(#main-header) {
-        @apply pl-20 sm:ml-0;
+        @apply pl-20 sm:pl-0;
     }
 </style>

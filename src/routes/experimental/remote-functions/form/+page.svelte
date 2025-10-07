@@ -3,6 +3,7 @@
 	import { page } from '$app/state';
 	import { guestbookFormSchema } from '$lib/validation/guestbookFormSchema.js';
 	import GuestbookCard from '$lib/components/GuestbookCard.svelte';
+	import * as Callout from '$lib/components/callout/index.js';
 	
 	// Svelte 5 Rune을 사용한 상태 관리
 	let uuidInput = $state();
@@ -76,31 +77,27 @@
 
 <article class="p-4 space-y-8">
 	<header>
-		<h2>Form</h2>
+		<h1>Form</h1>
 		<p>
 			Svelte Remote Functions의 <code>form</code> 패턴으로 타입 안전한 폼 제출과 Optimistic UI를 구현한 예제입니다.
 		</p>
-		<div class="mt-4 p-4 bg-surface-100-900 rounded-lg">
-			<h4 class="text-primary-600-400 mb-2">핵심 기능</h4>
-			<ul class="space-y-2">
-				<li class="flex gap-2">
-					<span class="text-primary-500">•</span>
-					<span><code>preflight()</code> - 클라이언트 측 유효성 검사로 불필요한 서버 요청 방지</span>
-				</li>
-				<li class="flex gap-2">
-					<span class="text-primary-500">•</span>
-					<span><code>enhance()</code> - Progressive Enhancement로 JS 없이도 동작</span>
-				</li>
-				<li class="flex gap-2">
-					<span class="text-primary-500">•</span>
-					<span><code>withOverride()</code> - Optimistic UI로 즉각적인 사용자 피드백</span>
-				</li>
-				<li class="flex gap-2">
-					<span class="text-primary-500">•</span>
-					<span>타입 안전성 - 서버와 클라이언트 간 완벽한 TypeScript 지원</span>
-				</li>
-			</ul>
-		</div>
+		
+		<Callout.Root variant="info">
+			<Callout.Header>
+				핵심 기능
+			</Callout.Header>
+			
+			<Callout.Content>
+				<section class="space-y-2">
+					<ul class="list-disc list-inside">
+						<li><code>preflight()</code> - 클라이언트 측 유효성 검사로 불필요한 서버 요청 방지</li>
+						<li><code>enhance()</code> - Progressive Enhancement로 JS 없이도 동작</li>
+						<li><code>withOverride()</code> - Optimistic UI로 즉각적인 사용자 피드백</li>
+						<li>타입 안전성 - 서버와 클라이언트 간 완벽한 TypeScript 지원</li>
+					</ul>
+				</section>
+			</Callout.Content>
+		</Callout.Root>
 	</header>
 
 	<!-- 방명록 작성 섹션 -->
@@ -121,10 +118,10 @@
                     class="input"
                     maxlength="16"
                     required
-                    aria-invalid={!!addGuestbookEntry.issues?.name}
+                    aria-invalid={!!guestbookForm.fields?.name?.issues()?.length}
                 />
-                {#if addGuestbookEntry.issues?.name}
-                    {#each addGuestbookEntry.issues.name as issue}
+                {#if guestbookForm.fields?.name?.issues()?.length}
+                    {#each guestbookForm.fields.name.issues() as issue}
                         <span class="text-error-500 text-sm">{issue.message}</span>
                     {/each}
                 {:else}
@@ -141,10 +138,10 @@
                     class="textarea"
                     maxlength="128"
                     required
-                    aria-invalid={!!addGuestbookEntry.issues?.message}
+                    aria-invalid={!!guestbookForm.fields?.message?.issues()?.length}
                 ></textarea>
-                {#if addGuestbookEntry.issues?.message}
-                    {#each addGuestbookEntry.issues.message as issue}
+                {#if guestbookForm.fields?.message?.issues()?.length}
+                    {#each guestbookForm.fields.message.issues() as issue}
                         <span class="text-error-500 text-sm">{issue.message}</span>
                     {/each}
                 {:else}
