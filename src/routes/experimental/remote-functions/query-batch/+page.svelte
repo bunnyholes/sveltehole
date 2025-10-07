@@ -21,7 +21,7 @@
 	<header>
 		<h1>Query Batch</h1>
 		<p>
-			Remote Function의 <code>query.batch</code> 동작을 살펴보는 예제입니다.
+			<code>query.batch</code>는 같은 틱에서 호출된 쿼리를 하나의 요청으로 묶습니다. N+1 문제를 자동으로 해결합니다.
 		</p>
 	</header>
 
@@ -38,7 +38,7 @@
 			</button>
 		</header>
 
-		<div class="grid gap-2 md:grid-cols-2">
+		<div class="flex flex-col gap-2">
 				{#each itemIds as id}
 					{@const query = getGuestbookItems(id)}
 					
@@ -57,50 +57,31 @@
 		</div>
 	</section>
 
+	<section class="space-y-2">
+		<h2 class="text-lg font-semibold">작동 방식</h2>
+		<p>
+			일반 <code>query</code>와 API가 동일하지만, 같은 틱의 호출을 자동으로 묶어 하나의 요청으로 전송합니다.
+		</p>
+		<p>
+			서버는 <code>WHERE id IN (...)</code> 같은 단일 쿼리로 처리해 DB 접근을 최소화합니다.
+		</p>
+	</section>
+
 	<Callout.Root variant="info">
 		<Callout.Header>
-			SvelteKit query.batch의 의의
+			장점
 		</Callout.Header>
-		
+
 		<Callout.Content>
-		<section class="space-y-2">
-			<div class="font-semibold">핵심 개념 (공식 문서)</div>
-			<p>
-				"query.batch는 query와 동일하게 작동하지만, 동일한 매크로태스크 내에서 발생하는 요청들을 배치 처리합니다."
-			</p>
-		</section>
-		
-		<section class="space-y-2">
-			<div class="font-semibold">개발자 관점</div>
-			<ul class="list-disc list-inside">
-				<li>사용법 - <code>getGuestbookItems(id)</code> - 단일 키 조회처럼 사용</li>
-				<li>각 컴포넌트는 독립적으로 자신의 데이터만 요청</li>
-				<li>일반 query와 100% 동일한 API</li>
+			<ul class="list-disc list-inside space-y-1 text-sm">
+				<li>4번 호출해도 네트워크와 DB 쿼리는 1번만 실행됩니다.</li>
+				<li>컴포넌트 코드 변경 없이 자동으로 최적화됩니다.</li>
+				<li>항목별 UI 구성을 유지하면서 N+1 문제를 해결합니다.</li>
 			</ul>
-		</section>
-		
-		<section class="space-y-2">
-			<div class="font-semibold">프레임워크 백그라운드</div>
-			<ul class="list-disc list-inside">
-				<li>동일 매크로태스크의 모든 호출을 자동 수집</li>
-				<li>N개 요청 → 1개 배치 요청으로 자동 변환</li>
-				<li><code>WHERE id IN (...)</code> 단일 쿼리로 최적화</li>
-			</ul>
-		</section>
-		
-		<section class="space-y-2">
-			<div class="font-semibold">비교</div>
-			<ul class="list-disc list-inside">
-				<li><strong>일반 query</strong> - 4개 호출 = 4번 DB 쿼리 = 4번 네트워크 요청</li>
-				<li><strong>query.batch</strong> - 4개 호출 = 1번 DB 쿼리 = 1번 네트워크 요청</li>
-			</ul>
-		</section>
-		
-			</Callout.Content>
-	<Callout.Footer>
-			<p>
-				댓글 작성자, 장바구니 상품, 팔로워 프로필 등 N+1 문제 자동 해결
-			</p>
+		</Callout.Content>
+
+		<Callout.Footer>
+			항목 수가 많은 리스트에서 특히 효과적입니다.
 		</Callout.Footer>
 	</Callout.Root>
 

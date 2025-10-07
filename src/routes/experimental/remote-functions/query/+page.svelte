@@ -21,7 +21,7 @@
     <header>
         <h1>Query</h1>
         <p>
-            Remote Function의 <code>query</code>를 활용한 예제입니다.
+            <code>query</code>는 어디서든 호출할 수 있지만 항상 서버에서 실행됩니다. 자동 캐싱과 타입 안전성을 제공합니다.
         </p>
     </header>
 
@@ -38,6 +38,7 @@
             </button>
         </header>
         
+        <div class="flex flex-col gap-2">
         {#each itemIds as id}
             {@const query = getGuestbookItem(id)}
 
@@ -56,39 +57,36 @@
                 <GuestbookCard entry={query.loading ? null : query.current} />
             {/if}
         {/each}
+        </div>
 
+    </section>
+
+    <section class="space-y-2">
+        <h2 class="text-lg font-semibold">작동 방식</h2>
+        <p>
+            동일한 인자로 호출하면 같은 인스턴스를 반환해 캐시를 공유합니다. <code>.refresh()</code>로 최신 데이터를 다시 가져올 수 있습니다.
+        </p>
+        <p>
+            이 데모는 항목을 개별로 불러와 N+1 문제를 재현합니다.
+        </p>
     </section>
 
     <Callout.Root variant="info">
 		<Callout.Header>
-			N+1 문제 발생
+			N+1 문제
 		</Callout.Header>
-		
-		<Callout.Content>
-            <section class="space-y-2">
-                <div class="font-semibold">현재 상황</div>
-                <ul class="list-disc list-inside">
-                    <li>4개의 개별 DB 쿼리가 실행되고 있습니다</li>
-                    <li>각 <code>getGuestbookItem(id)</code> 호출이 별도의 네트워크 요청을 생성</li>
-                    <li>개발자 도구 Network 탭에서 4개의 개별 요청 확인 가능</li>
-                    <li>응답 시간: ~200ms × 4 = ~800ms (순차적일 경우)</li>
-                </ul>
-            </section>
 
-            <section class="space-y-2">
-                <div class="font-semibold">실제 문제 상황</div>
-                <ul class="list-disc list-inside">
-                    <li>100개 댓글 = 100번 DB 쿼리 (매우 느림)</li>
-                    <li>서버 부하 증가, DB 커넥션 풀 고갈 위험</li>
-                </ul>
-            </section>
+		<Callout.Content>
+            <ul class="list-disc list-inside space-y-1 text-sm">
+                <li>4개의 <code>query</code>가 각각 요청을 만들어 순차 대기합니다.</li>
+                <li>항목이 많아질수록 지연이 누적되고 서버 부하가 증가합니다.</li>
+            </ul>
         </Callout.Content>
-		
+
 		<Callout.Footer>
             <a href="/experimental/remote-functions/query-batch" class="font-semibold underline underline-offset-4 hover:text-primary-800-200">
                 Query Batch 데모
-            </a>에서
-            <code>query.batch</code>로 해결된 모습을 확인하세요
+            </a>에서 <code>query.batch</code>로 해결한 결과를 확인하세요.
 		</Callout.Footer>
     </Callout.Root>
 
