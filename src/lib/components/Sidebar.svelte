@@ -6,6 +6,7 @@
 	import Settings from '@lucide/svelte/icons/settings';
 	import Clock from '@lucide/svelte/icons/clock';
 	import Network from '@lucide/svelte/icons/network';
+	import Database from '@lucide/svelte/icons/database';
 	import {page} from '$app/state';
 	import {afterNavigate} from '$app/navigation';
 
@@ -50,26 +51,26 @@
         <!-- 헤더: 로고 -->
         <header class="flex w-full h-20">
             <button aria-label="SvelteHole 홈"
-                    class="grid place-items-center-safe w-20 h-full "
+                    class="flex h-20 w-full hover:preset-filled-surface-400-600"
                     popovertarget="sidebar"
                     title="SvelteHole 홈">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu ">
-                    <path d="M4 5h16" class="transition-all duration-300 origin-[12px_5px] group-open:translate-y-[7px] group-open:rotate-45"/>
-                    <path d="M4 12h16" class="transition-opacity duration-300 group-open:opacity-0"/>
-                    <path d="M4 19h16" class="transition-all duration-300 origin-[12px_19px] group-open:-translate-y-[7px] group-open:-rotate-45"/>
-                </svg>
+                <div class="w-20 grid place-items-center-safe">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu ">
+                        <path d="M4 5h16" class="transition-all duration-300 origin-[12px_5px] group-open:translate-y-[7px] group-open:rotate-45"/>
+                        <path d="M4 12h16" class="transition-opacity duration-300 group-open:opacity-0"/>
+                        <path d="M4 19h16" class="transition-all duration-300 origin-[12px_19px] group-open:-translate-y-[7px] group-open:-rotate-45"/>
+                    </svg>
+                </div>
+                <span class="flex-1 text-left content-center-safe px-6">Menu</span>
             </button>
-            <div class="flex-1 content-center-safe px-6">
-                <p class="uppercase">Menu</p>
-            </div>
         </header>
 
         <!-- 바디: 메인 내비게이션 (스크롤 가능) -->
         <nav class="flex-1 flex flex-col w-full overflow-y-auto">
             <!-- Experimental 그룹 -->
             {@render sidebarItem(FlaskConical, 'Experimental', '/experimental')}
-            <!-- remote functions -->
-            {@render sidebarItem(Network, 'Remote Functions', '/experimental/remote-functions')}
+            <!-- Database 그룹 -->
+            {@render sidebarItem(Database, 'Database', '/db')}
         </nav>
 
         <!-- 푸터: 설정 아이콘 -->

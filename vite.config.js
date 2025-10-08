@@ -14,6 +14,10 @@ export default defineConfig({
 			outdir: './src/lib/paraglide'
 		})
 	],
+	optimizeDeps: {
+		exclude: ['@electric-sql/pglite']
+	},
+	assetsInclude: ['**/*.wasm', '**/*.data'],
 	test: {
 		expect: { requireAssertions: true },
 		projects: [
