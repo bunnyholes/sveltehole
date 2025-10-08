@@ -17,6 +17,10 @@ export default defineConfig({
 	optimizeDeps: {
 		exclude: ['@electric-sql/pglite']
 	},
+	worker: {
+		// Use ESM output for worker bundles to support code-splitting imports
+		format: 'es'
+	},
 	assetsInclude: ['**/*.wasm', '**/*.data'],
 	test: {
 		expect: { requireAssertions: true },
