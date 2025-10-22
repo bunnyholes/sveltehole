@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SvelteHole - Test Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #718096;
+        }
+
+        .summary {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .summary-item.passed {
+            background: #c6f6d5;
+            border: 2px solid #48bb78;
+        }
+
+        .summary-item.total {
+            background: #bee3f8;
+            border: 2px solid #4299e1;
+        }
+
+        .summary-item h3 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .summary-item.passed h3 {
+            color: #22543d;
+        }
+
+        .summary-item.total h3 {
+            color: #2c5282;
+        }
+
+        .summary-item p {
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .test-results {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .test-case {
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            border-left: 5px solid;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .test-case:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-case.passed {
+            background: #f0fff4;
+            border-color: #48bb78;
+        }
+
+        .test-case h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-case.passed h3 {
+            color: #22543d;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge.passed {
+            background: #48bb78;
+            color: white;
+        }
+
+        .test-details {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .test-details p {
+            margin: 5px 0;
+            color: #4a5568;
+        }
+
+        .test-details strong {
+            color: #2d3748;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 SvelteHole Test Report</h1>
+            <p>Vitest & Manual E2E Validation Results</p>
+        </div>
+
+        <div class="summary">
+            <div class="summary-item passed">
+                <h3>4</h3>
+                <p>Tests Passed</p>
+            </div>
+            <div class="summary-item total">
+                <h3>4</h3>
+                <p>Total Tests</p>
+            </div>
+        </div>
+
+        <div class="test-results">
+            <h2 style="margin-bottom: 20px; color: #2d3748; font-size: 1.8rem;">Test Cases</h2>
+
+            <!-- Server Test -->
+            <div class="test-case passed">
+                <h3>
+                    <svg class="icon" fill="#48bb78" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    Server Test: Sum calculation
+                    <span class="badge passed">✓ Passed</span>
+                </h3>
+                <div class="test-details">
+                    <p><strong>Test Type:</strong> Unit Test (Vitest - Server)</p>
+                    <p><strong>File:</strong> src/demo.spec.js</p>
+                    <p><strong>Description:</strong> Verifies basic arithmetic operations (1 + 2 = 3)</p>
+                    <p><strong>Duration:</strong> 2ms</p>
+                    <p><strong>Status:</strong> ✅ All assertions passed</p>
+                </div>
+            </div>
+
+            <!-- Homepage Test -->
+            <div class="test-case passed">
+                <h3>
+                    <svg class="icon" fill="#48bb78" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    E2E Test: Homepage H1 Element
+                    <span class="badge passed">✓ Passed</span>
+                </h3>
+                <div class="test-details">
+                    <p><strong>Test Type:</strong> E2E Validation</p>
+                    <p><strong>URL:</strong> http://localhost:5173/</p>
+                    <p><strong>Expected:</strong> H1 element should be visible</p>
+                    <p><strong>Actual:</strong> &lt;h1&gt;Svelte 데모&lt;br/&gt;학습 저장소&lt;/h1&gt;</p>
+                    <p><strong>HTTP Status:</strong> 200 OK</p>
+                    <p><strong>Status:</strong> ✅ H1 element found and visible</p>
+                </div>
+            </div>
+
+            <!-- Experimental Page Test -->
+            <div class="test-case passed">
+                <h3>
+                    <svg class="icon" fill="#48bb78" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    E2E Test: Experimental Page
+                    <span class="badge passed">✓ Passed</span>
+                </h3>
+                <div class="test-details">
+                    <p><strong>Test Type:</strong> E2E Validation</p>
+                    <p><strong>URL:</strong> http://localhost:5173/experimental</p>
+                    <p><strong>Expected:</strong> H1 should contain "실험실"</p>
+                    <p><strong>Actual:</strong> &lt;h1&gt;실험실&lt;/h1&gt;</p>
+                    <p><strong>HTTP Status:</strong> 200 OK</p>
+                    <p><strong>Status:</strong> ✅ Page accessible and H1 content correct</p>
+                </div>
+            </div>
+
+            <!-- Database Page Test -->
+            <div class="test-case passed">
+                <h3>
+                    <svg class="icon" fill="#48bb78" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    E2E Test: Database Page
+                    <span class="badge passed">✓ Passed</span>
+                </h3>
+                <div class="test-details">
+                    <p><strong>Test Type:</strong> E2E Validation</p>
+                    <p><strong>URL:</strong> http://localhost:5173/db</p>
+                    <p><strong>Expected:</strong> Page should load successfully</p>
+                    <p><strong>HTTP Status:</strong> 200 OK</p>
+                    <p><strong>Status:</strong> ✅ Database page accessible</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Generated: 2025-10-22 | SvelteHole Test Suite</p>
+        </div>
+    </div>
+</body>
+</html>
