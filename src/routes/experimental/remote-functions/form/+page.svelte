@@ -24,10 +24,15 @@
 				);
 
 				uuidInput.value = crypto.randomUUID();
+				guestbookForm.fields.name.set("안녕하세요");
+				guestbookForm.fields.message.set("스벨트는 미래입니다.");
 			} catch (error) {
 				console.error('방명록 제출 실패', error);
 			}
 		});
+
+	guestbookForm.fields.name.set("안녕하세요");
+	guestbookForm.fields.message.set("스벨트는 미래입니다.");
 </script>
 
 <svelte:head>
