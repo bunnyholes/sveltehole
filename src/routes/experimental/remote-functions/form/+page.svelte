@@ -4,7 +4,8 @@
 	import { guestbookFormSchema } from '$lib/validation/guestbookFormSchema.js';
 	import GuestbookCard from '$lib/components/GuestbookCard.svelte';
 	import * as Callout from '$lib/components/callout/index.js';
-	
+	import { browser } from '$app/environment';
+
 	let uuidInput = $state();
 	const entriesQuery = getGuestbookEntries();
 
@@ -31,8 +32,10 @@
 			}
 		});
 
-	guestbookForm.fields.name.set("안녕하세요");
-	guestbookForm.fields.message.set("스벨트는 미래입니다.");
+	if (browser) {
+		guestbookForm.fields.name.set("안녕하세요");
+		guestbookForm.fields.message.set("스벨트는 미래입니다.");
+	}
 </script>
 
 <svelte:head>
