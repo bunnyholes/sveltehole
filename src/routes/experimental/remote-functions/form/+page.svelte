@@ -4,7 +4,8 @@
 	import { guestbookFormSchema } from '$lib/validation/guestbookFormSchema.js';
 	import GuestbookCard from '$lib/components/GuestbookCard.svelte';
 	import * as Callout from '$lib/components/callout/index.js';
-	
+	import { browser } from '$app/environment';
+
 	let uuidInput = $state();
 	const entriesQuery = getGuestbookEntries();
 
@@ -24,10 +25,17 @@
 				);
 
 				uuidInput.value = crypto.randomUUID();
+				guestbookForm.fields.name.set("안녕하세요");
+				guestbookForm.fields.message.set("스벨트는 미래입니다.");
 			} catch (error) {
 				console.error('방명록 제출 실패', error);
 			}
 		});
+
+	if (browser) {
+		guestbookForm.fields.name.set("안녕하세요");
+		guestbookForm.fields.message.set("스벨트는 미래입니다.");
+	}
 </script>
 
 <svelte:head>
