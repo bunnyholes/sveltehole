@@ -1,19 +1,20 @@
 <script>
 	import { addGuestbookEntry, getGuestbookEntries } from '$lib/remote/data.remote.js';
-	import { page } from '$app/state';
 	import { guestbookFormSchema } from '$lib/validation/guestbookFormSchema.js';
 	import GuestbookCard from '$lib/components/GuestbookCard.svelte';
 	import * as Callout from '$lib/components/callout/index.js';
+
+	let { data } = $props();
 
 	let uuidInput = $state();
 	const entriesQuery = getGuestbookEntries();
 
 	const guestbookForm = addGuestbookEntry
 		.preflight(guestbookFormSchema)
-		.enhance(async ({ form, submit, data }) => {
+		.enhance(async ({ form, submit, data: formData }) => {
 			try {
 				const optimisticEntry = {
-					...data, createAt: new Date().toISOString()
+					...formData, createAt: new Date().toISOString()
 				};
 
 				await submit().updates(
@@ -24,17 +25,13 @@
 				);
 
 				uuidInput.value = crypto.randomUUID();
-				guestbookForm.fields.name.set("안녕하세요");
-				guestbookForm.fields.message.set("스벨트는 미래입니다.");
 			} catch (error) {
 				console.error('방명록 제출 실패', error);
 			}
 		});
 
-	$effect(() => {
-		guestbookForm.fields.name.set("안녕하세요");
-		guestbookForm.fields.message.set("스벨트는 미래입니다.");
-	});
+	addGuestbookEntry.fields.name.set("안녕하세요");
+	addGuestbookEntry.fields.message.set("스벨트는 미래입니다.");
 </script>
 
 <svelte:head>
@@ -54,21 +51,20 @@
         <form {...guestbookForm}
               novalidate
               class=" space-y-4">
-            <input bind:this={uuidInput} type="hidden" name="id" value={page.data.formId} />
+            <input bind:this={uuidInput} type="hidden" name="id" value={data.formId} />
 
             <label class="label">
                 <span class="label-text">이름</span>
                 <input
-                    name="name"
-                    type="text"
                     placeholder="이름을 입력해주세요"
                     class="input"
                     maxlength="16"
                     required
-                    aria-invalid={!!guestbookForm.fields?.name?.issues()?.length}
+                    {...addGuestbookEntry.fields.name.as("text")}
+                    aria-invalid={!!addGuestbookEntry.fields?.name?.issues()?.length}
                 />
-                {#if guestbookForm.fields?.name?.issues()?.length}
-                    {#each guestbookForm.fields.name.issues() as issue}
+                {#if addGuestbookEntry.fields?.name?.issues()?.length}
+                    {#each addGuestbookEntry.fields.name.issues() as issue}
                         <span class="text-error-500 text-sm">{issue.message}</span>
                     {/each}
                 {:else}
@@ -79,16 +75,16 @@
             <label class="label">
                 <span class="label-text">메시지</span>
                 <textarea
-                    name="message"
                     rows="4"
                     placeholder="메시지를 입력해주세요..."
                     class="textarea"
                     maxlength="128"
                     required
-                    aria-invalid={!!guestbookForm.fields?.message?.issues()?.length}
+                    {...addGuestbookEntry.fields.message.as("text")}
+                    aria-invalid={!!addGuestbookEntry.fields?.message?.issues()?.length}
                 ></textarea>
-                {#if guestbookForm.fields?.message?.issues()?.length}
-                    {#each guestbookForm.fields.message.issues() as issue}
+                {#if addGuestbookEntry.fields?.message?.issues()?.length}
+                    {#each addGuestbookEntry.fields.message.issues() as issue}
                         <span class="text-error-500 text-sm">{issue.message}</span>
                     {/each}
                 {:else}
@@ -102,13 +98,13 @@
                 작성하기
             </button>
 
-            {#if guestbookForm.result}
-                <aside class="alert {guestbookForm.result.success ? 'variant-filled-success' : 'variant-filled-error'}">
+            {#if addGuestbookEntry.result}
+                <aside class="alert {addGuestbookEntry.result.success ? 'variant-filled-success' : 'variant-filled-error'}">
                     <div class="alert-message">
-                        {#if guestbookForm.result.success}
+                        {#if addGuestbookEntry.result.success}
                             <p>방명록이 성공적으로 등록되었습니다!</p>
                         {:else}
-                            <p>{guestbookForm.result.message || '등록 중 오류가 발생했습니다.'}</p>
+                            <p>{addGuestbookEntry.result.message || '등록 중 오류가 발생했습니다.'}</p>
                         {/if}
                     </div>
                 </aside>
